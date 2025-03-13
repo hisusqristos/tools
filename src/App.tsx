@@ -1,4 +1,3 @@
-import DownloadButton from './reusable/DownloadButton';
 import Crop from "./tools/Crop"
 
 import { BrowserRouter as Router, Routes, Route, useParams } from "react-router-dom";
@@ -6,7 +5,7 @@ import { BrowserRouter as Router, Routes, Route, useParams } from "react-router-
 const Flip = () => <div>Flip Tool</div>;
 const BW = () => <div>Black & White Tool</div>;
 
-const ToolSelector = ({ tool }: { tool: string | undefined }) => {
+const ToolSelector = ({ tool }: { tool?: string }) => {
   switch (tool) {
     case "crop":
       return <Crop />;
@@ -29,12 +28,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<div>Select a tool</div>} />
-        <Route path="/:tool" element={
-          <div>
-            <ToolRouter />
-            <DownloadButton color={"red"} />
-          </div>
-        } />
+        <Route path="/:tool" element={<ToolRouter />} />
       </Routes>
     </Router>)
 };
