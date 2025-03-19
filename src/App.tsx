@@ -1,8 +1,8 @@
-import Crop from "./tools/Crop"
+import Crop from "./tools/crop/Crop"
+import Flip from "./tools/flip/Flip";
 
 import { BrowserRouter as Router, Routes, Route, useParams } from "react-router-dom";
 
-const Flip = () => <div>Flip Tool</div>;
 const BW = () => <div>Black & White Tool</div>;
 
 const ToolSelector = ({ tool }: { tool?: string }) => {
