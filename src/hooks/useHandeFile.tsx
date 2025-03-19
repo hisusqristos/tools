@@ -44,7 +44,7 @@ const useHandleFile = (canvasRef: React.RefObject<HTMLCanvasElement | null>) => 
         const dataURL = canvas.toDataURL('image/png');
 
         link.href = dataURL;
-        link.download = 'cropped-image.png';
+        link.download = 'edited-image.png';
 
         document.body.appendChild(link);
         link.click();
