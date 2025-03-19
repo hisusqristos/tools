@@ -4,15 +4,15 @@ import { useState, useCallback } from 'react';
  * @param {React.RefObject} canvasRef - Reference to the canvas element
  * @return {Object} Object containing image, handleUpload and handleDownload functions
  */
-const useHandleFile = (canvasRef: any) => {
+const useHandleFile = (canvasRef: React.RefObject<HTMLCanvasElement | null>) => {
     const [image, setImage] = useState<HTMLImageElement | null>(null);
 
     /**
      * Handles file upload from input element
      * @param {Event} event - The change event from file input
      */
-    const handleUpload = useCallback((event: any) => {
-        const file = event.target.files[0];
+    const handleUpload = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files![0];
         if (!file || !file.type.match('image.*')) return;
 
         const reader = new FileReader();
@@ -27,7 +27,7 @@ const useHandleFile = (canvasRef: any) => {
 
                     canvas.width = img.width;
                     canvas.height = img.height;
-                    ctx.drawImage(img, 0, 0, img.width, img.height);
+                    ctx!.drawImage(img, 0, 0, img.width, img.height);
                 }
             };
             img.src = e.target?.result as string;
