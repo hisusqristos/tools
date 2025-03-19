@@ -2,7 +2,8 @@ import { useRef } from "react"
 import ImageInput from "../../reusable/ImageInput"
 import DownloadButton from "../../reusable/DownloadButton"
 import useHandleFile from "../../hooks/useHandeFile";
-import { FlipTransformer, FlipControls } from "./FlipTransformer";
+import FlipTransformer from "./FlipTransformer";
+import FlipControls from "./FlipControls"
 
 const Flip = () => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);

@@ -1,4 +1,4 @@
-import { useRef, useEffect, useCallback, useState, JSX } from 'react';
+import { useState } from 'react';
 
 const FlipTransformer = ({ image, canvasRef }: any) => {
     const [flipScale, setFlipScale] = useState({ x: 1, y: 1 });
@@ -33,18 +33,8 @@ const FlipTransformer = ({ image, canvasRef }: any) => {
         ctx.drawImage(image, posX, posY, canvas.width, canvas.height);
     };
 
-
-
     return { applyFlip };
 };
 
-type FlipControlsProps = { applyFlip: (direction: 'horizontal' | 'vertical') => void };
 
-const FlipControls = ({ applyFlip }: FlipControlsProps) => (
-    <div>
-        <button onClick={() => applyFlip('horizontal')}>Flip Horizontally</button>
-        <button onClick={() => applyFlip('vertical')}>Flip Vertically</button>
-    </div>
-);
-
-export { FlipTransformer, FlipControls }
+export default FlipTransformer
