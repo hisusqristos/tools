@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react"
+import { useRef } from "react"
 import ImageInput from "../../reusable/ImageInput"
 import DownloadButton from "../../reusable/DownloadButton"
 import useHandleFile from "../../hooks/useHandeFile";
