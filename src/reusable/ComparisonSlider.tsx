@@ -38,8 +38,8 @@ const ComparisonSlider = ({ originalSrc, editedSrc, dimensions }: ComparisonProp
         >
             {originalSrc && editedSrc && (
                 <div className="comparison-image-wrapper">
-                    <img src={editedSrc} alt="Edited image on the right side" className="comparison-image" />
-                    <img src={originalSrc} alt="Original image on the left side" className="comparison-image comparison-image-edited" style={{ clipPath: `inset(0 ${100 - sliderPos}% 0 0)` }} />
+                    <img src={editedSrc} alt="Edited version on the right side" className="comparison-image" />
+                    <img src={originalSrc} alt="Original version on the left side" className="comparison-image comparison-image-edited" style={{ clipPath: `inset(0 ${100 - sliderPos}% 0 0)` }} />
                 </div>
             )}
             <div className="comparison-slider" style={{ left: `${sliderPos}%` }} />
