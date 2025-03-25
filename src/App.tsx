@@ -1,9 +1,8 @@
 import Crop from "./tools/crop/Crop"
 import Flip from "./tools/flip/Flip";
+import Grayscale from "./tools/grayscale/Grayscale";
 
 import { BrowserRouter as Router, Routes, Route, useParams } from "react-router-dom";
-
-const BW = () => <div>Black & White Tool</div>;
 
 const ToolSelector = ({ tool }: { tool?: string }) => {
   switch (tool) {
@@ -11,8 +10,8 @@ const ToolSelector = ({ tool }: { tool?: string }) => {
       return <Crop />;
     case "flip":
       return <Flip />;
-    case "bw":
-      return <BW />;
+    case "grayscale":
+      return <Grayscale />;
     default:
       return <div>Tool Not Found</div>;
   }
