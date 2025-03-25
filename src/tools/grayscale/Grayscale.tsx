@@ -1,30 +1,21 @@
-import { useEffect, useRef } from "react"
+import { useRef } from "react"
 import ImageInput from "../../reusable/ImageInput"
 import DownloadButton from "../../reusable/DownloadButton"
 import useHandleFile from "../../hooks/useHandeFile";
-import { convertToGreyscale } from "./GrayscaleTransformer";
+import { toGrayscale } from "./toGrayscale";
 import ComparisonSlider from "../../reusable/ComparisonSlider";
 
 const Grayscale = () => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
-    const grayscaleCanvasRef = useRef<HTMLCanvasElement | null>(null);
-
     const { image, handleUpload, handleDownload } = useHandleFile(canvasRef);
-
-    useEffect(() => {
-        if (!canvasRef.current || !grayscaleCanvasRef.current) return;
-        convertToGreyscale(canvasRef.current, grayscaleCanvasRef.current);
-    }, [image]);
+    const greyscaleSrc = toGrayscale(image, canvasRef);
 
     return (
         <>
             <ImageInput onUploadAction={handleUpload} />
             <canvas ref={canvasRef} style={{ display: "none" }} />
-            <canvas ref={grayscaleCanvasRef} style={{ display: "none" }} />
-
-            {!image && <div>Upload an image to begin editing</div>}
-            {image && <ComparisonSlider originalRef={canvasRef} editedRef={grayscaleCanvasRef} />}
-
+            {!image ? <div>Upload an image to begin editing</div> :
+                <ComparisonSlider originalSrc={image.src} editedSrc={greyscaleSrc!} dimensions={{ width: canvasRef.current!.width, height: canvasRef.current!.height }} />}
             <DownloadButton onClickAction={handleDownload} />
         </>
     );
