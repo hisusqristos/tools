@@ -1,8 +1,8 @@
+import { HashRouter as Router, Routes, Route, useParams } from "react-router-dom";
 import Crop from "./tools/crop/Crop"
 import Flip from "./tools/flip/Flip";
 import Grayscale from "./tools/grayscale/Grayscale";
-
-import { HashRouter as Router, Routes, Route, useParams } from "react-router-dom";
+import WhiteBalance from "./tools/white-balance/WhiteBalance";
 
 const ToolSelector = ({ tool }: { tool?: string }) => {
   switch (tool) {
@@ -12,6 +12,8 @@ const ToolSelector = ({ tool }: { tool?: string }) => {
       return <Flip />;
     case "grayscale":
       return <Grayscale />;
+    case "white-balance":
+      return <WhiteBalance />;
     default:
       return <div>Tool Not Found</div>;
   }

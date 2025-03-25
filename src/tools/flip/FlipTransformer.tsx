@@ -25,6 +25,8 @@ const FlipTransformer = ({ image, canvasRef }: any) => {
 
         canvas.width = image.width;
         canvas.height = image.height;
+        
+        ctx.clearRect(0, 0, image.width, image.height);
         ctx.scale(newFlipScale.x, newFlipScale.y);
 
         const posX = newFlipScale.x === -1 ? -canvas.width : 0;
