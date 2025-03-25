@@ -24,7 +24,7 @@ const ToolRouter = () => {
 
 function App() {
   return (
-    <Router>
+    <Router basename='/tools'>
       <Routes>
         <Route path="/" element={<div>Select a tool</div>} />
         <Route path="/:tool" element={<ToolRouter />} />

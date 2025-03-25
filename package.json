@@ -1,7 +1,7 @@
 {
   "name": "quick-tools",
   "version": "0.1.0",
-  "homepage": "https://hisusqristos.github.io/tools/",
+  "homepage": "https://hisusqristos.github.io/tools",
   "private": true,
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
