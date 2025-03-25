@@ -2,7 +2,7 @@ import Crop from "./tools/crop/Crop"
 import Flip from "./tools/flip/Flip";
 import Grayscale from "./tools/grayscale/Grayscale";
 
-import { BrowserRouter as Router, Routes, Route, useParams } from "react-router-dom";
+import { HashRouter as Router, Routes, Route, useParams } from "react-router-dom";
 
 const ToolSelector = ({ tool }: { tool?: string }) => {
   switch (tool) {
@@ -24,7 +24,7 @@ const ToolRouter = () => {
 
 function App() {
   return (
-    <Router basename='/tools'>
+    <Router>
       <Routes>
         <Route path="/" element={<div>Select a tool</div>} />
         <Route path="/:tool" element={<ToolRouter />} />
