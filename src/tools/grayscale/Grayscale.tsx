@@ -4,6 +4,7 @@ import DownloadButton from "../../reusable/DownloadButton"
 import useHandleFile from "../../hooks/useHandeFile";
 import { toGrayscale } from "./toGrayscale";
 import ComparisonSlider from "../../reusable/ComparisonSlider";
+import "./styles.css";
 
 const Grayscale = () => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -11,13 +12,19 @@ const Grayscale = () => {
     const greyscaleSrc = toGrayscale(image, canvasRef);
 
     return (
-        <>
-            <ImageInput onUploadAction={handleUpload} />
+        <div className="container">
             <canvas ref={canvasRef} style={{ display: "none" }} />
             {!image ? <div>Upload an image to begin editing</div> :
-                <ComparisonSlider originalSrc={image.src} editedSrc={greyscaleSrc!} dimensions={{ width: canvasRef.current!.width, height: canvasRef.current!.height }} />}
-            <DownloadButton onClickAction={handleDownload} />
-        </>
+                <div>
+                    <ComparisonSlider
+                        originalSrc={image.src}
+                        editedSrc={greyscaleSrc!}
+                        dimensions={{ width: canvasRef.current!.width, height: canvasRef.current!.height }} />
+                    <DownloadButton class="floated" onClickAction={handleDownload} />
+                </div>
+            }
+            <ImageInput class="floated" onUploadAction={handleUpload} />
+        </div>
     );
 };
 
