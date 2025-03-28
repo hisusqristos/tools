@@ -13,13 +13,18 @@ const Flip = () => {
     const applyFlip = FlipTransformer({ image, canvasRef });
 
     return (<>
-        <ImageInput onUploadAction={handleUpload} />
         <canvas id="canvas" ref={canvasRef} />
 
         {!image && (<div>Upload an image to begin editing </div>)}
-        {image && (<FlipControls {...applyFlip} />)}
+        {image &&
+            <div>
+                <FlipControls {...applyFlip} />
+                <DownloadButton onClickAction={handleDownload} />
+            </div>
+        }
 
-        <DownloadButton onClickAction={handleDownload} />
+        <ImageInput onUploadAction={handleUpload} />
+
     </>)
 };
 
