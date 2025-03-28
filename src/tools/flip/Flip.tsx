@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import ImageInput from "../../reusable/ImageInput";
-import useHandleFile from "../../hooks/useHandeFile";
+import useHandleFile from "../../hooks/useHandleFile";
 import FlipTransformer from "./FlipTransformer";
 import FlipControls from "./FlipControls";
 import EditorLayout from "../../EditorLayout";

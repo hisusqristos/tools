@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import ImageInput from "../../reusable/ImageInput";
-import useHandleFile from "../../hooks/useHandeFile";
+import useHandleFile from "../../hooks/useHandleFile";
 import { toGrayscale } from "./toGrayscale";
 import ComparisonSlider from "../../reusable/ComparisonSlider";
 import EditorLayout from "../../EditorLayout";
