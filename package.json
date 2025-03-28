@@ -43,5 +43,16 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/babel__core": "^7.20.5",
+    "@types/babel__generator": "^7.6.8",
+    "@types/babel__template": "^7.4.4",
+    "@types/babel__traverse": "^7.20.7",
+    "@types/bonjour": "^3.5.13",
+    "@types/node": "^22.13.14",
+    "@types/prettier": "^2.7.3",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.3"
   }
 }
