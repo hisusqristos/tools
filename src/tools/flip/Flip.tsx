@@ -5,7 +5,6 @@ import FlipTransformer from "./FlipTransformer";
 import FlipControls from "./FlipControls";
 import EditorLayout from "../../EditorLayout";
 
-
 const Flip = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const { image, handleUpload, handleDownload } = useHandleFile(canvasRef);
