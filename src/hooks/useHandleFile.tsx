@@ -19,16 +19,16 @@ const useHandleFile = (canvasRef: React.RefObject<HTMLCanvasElement | null>) => 
         reader.onload = (e) => {
             const img = new Image();
             img.onload = () => {
-                setImage(img);
-
                 if (canvasRef.current) {
                     const canvas = canvasRef.current;
                     const ctx = canvas.getContext('2d');
 
                     canvas.width = img.width;
                     canvas.height = img.height;
+
                     ctx!.drawImage(img, 0, 0, img.width, img.height);
                 }
+                setImage(img);
             };
             img.src = e.target?.result as string;
         };

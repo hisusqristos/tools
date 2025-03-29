@@ -1,31 +1,39 @@
-import { useRef } from "react"
-import ImageInput from "../../reusable/ImageInput"
-import DownloadButton from "../../reusable/DownloadButton"
-import useHandleFile from "../../hooks/useHandeFile";
+import { useRef } from "react";
+import ImageInput from "../../reusable/ImageInput";
+import useHandleFile from "../../hooks/useHandleFile";
 import { toGrayscale } from "./toGrayscale";
 import ComparisonSlider from "../../reusable/ComparisonSlider";
-import "./styles.css";
+import EditorLayout from "../../EditorLayout";
+
 
 const Grayscale = () => {
-    const canvasRef = useRef<HTMLCanvasElement | null>(null);
-    const { image, handleUpload, handleDownload } = useHandleFile(canvasRef);
-    const greyscaleSrc = toGrayscale(image, canvasRef);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const { image, handleUpload, handleDownload } = useHandleFile(canvasRef);
+  const grayscaleSrc = toGrayscale(image, canvasRef);
 
-    return (
-        <div className="container">
-            <canvas ref={canvasRef} style={{ display: "none" }} />
-            {!image ? <div>Upload an image to begin editing</div> :
-                <div>
-                    <ComparisonSlider
-                        originalSrc={image.src}
-                        editedSrc={greyscaleSrc!}
-                        dimensions={{ width: canvasRef.current!.width, height: canvasRef.current!.height }} />
-                    <DownloadButton class="floated" onClickAction={handleDownload} />
-                </div>
-            }
-            <ImageInput class="floated" onUploadAction={handleUpload} />
+  return (
+    <EditorLayout 
+      toolIcon="assets/grayscale.svg"
+      onDownload={image ? handleDownload : undefined}
+    >
+      <canvas ref={canvasRef} className="hidden" />
+      
+      {!image ? (
+        <ImageInput onUploadAction={handleUpload} />
+      ) : (
+        <div className="w-full max-w-4xl">
+          <ComparisonSlider 
+            originalSrc={image.src} 
+            editedSrc={grayscaleSrc!} 
+            dimensions={{ 
+              width: Math.min(800, canvasRef.current!.width), 
+              height: Math.min(600, canvasRef.current!.height) 
+            }} 
+          />
         </div>
-    );
+      )}
+    </EditorLayout>
+  );
 };
 
-export default Grayscale 
+export default Grayscale;

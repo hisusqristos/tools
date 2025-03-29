@@ -1,7 +1,7 @@
 import { useRef } from "react"
 import ImageInput from "../../reusable/ImageInput"
 import DownloadButton from "../../reusable/DownloadButton"
-import useHandleFile from "../../hooks/useHandeFile";
+import useHandleFile from "../../hooks/useHandleFile";
 
 const Crop = () => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
