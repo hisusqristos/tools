@@ -1,40 +1,50 @@
-import { useState } from 'react';
+type TransformOptions = { flipH: boolean, flipV: boolean, rotation: number, scaleX: number, scaleY: number }
 
-const FlipTransformer = ({ image, canvasRef }: any) => {
-    const [flipScale, setFlipScale] = useState({ x: 1, y: 1 });
+function applyTransform(ctx: CanvasRenderingContext2D, options: Partial<TransformOptions> = {}) {
+    const canvas = ctx.canvas;
 
-    const applyFlip = (direction: 'horizontal' | 'vertical') => {
+    // Default values
+    const {
+        flipH = false,
+        flipV = false,
+        rotation = 0,
+        scaleX = 1,
+        scaleY = 1
+    } = options;
 
-        if (!canvasRef.current || !image) return;
+    // Create a temporary canvas to store the current state
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.width = canvas.width;
+    tempCanvas.height = canvas.height;
+    const tempCtx = tempCanvas.getContext('2d');
 
-        let scaleX = 1;
-        let scaleY = 1;
+    // Copy current canvas content to temp canvas
+    tempCtx!.drawImage(canvas, 0, 0);
 
-        if (direction === 'horizontal') {
-            scaleX = -1;
-        } else if (direction === 'vertical') {
-            scaleY = -1;
-        }
+    // Clear the original canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        const newFlipScale = { x: flipScale.x * scaleX, y: flipScale.y * scaleY };
-        setFlipScale(newFlipScale);
+    // Calculate center of canvas for transform origin
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
 
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext("2d");
-        if (!ctx) return;
+    // Reset any existing transforms
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
 
-        canvas.width = image.width;
-        canvas.height = image.height;
-        ctx.scale(newFlipScale.x, newFlipScale.y);
+    // Set up the transformation
+    ctx.translate(centerX, centerY);
+    ctx.rotate((rotation * Math.PI) / 180);
+    ctx.scale(
+        flipH ? -1 * scaleX : scaleX,
+        flipV ? -1 * scaleY : scaleY
+    );
+    ctx.translate(-centerX, -centerY);
 
-        const posX = newFlipScale.x === -1 ? -canvas.width : 0;
-        const posY = newFlipScale.y === -1 ? -canvas.height : 0;
+    // Draw the temp canvas content with the applied transformation
+    ctx.drawImage(tempCanvas, 0, 0);
 
-        ctx.drawImage(image, posX, posY, canvas.width, canvas.height);
-    };
+    // Reset transform for future operations
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+}
 
-    return { applyFlip };
-};
-
-
-export default FlipTransformer
+export default applyTransform
