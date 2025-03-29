@@ -15,10 +15,10 @@ const ImageInput: React.FC<ImageInputProps> = ({ onUploadAction }) => {
 
   return (
     <div 
-      className="flex flex-row items-center justify-center p-10 max-96 w-96 border-2 border-dashed border-purple-500 rounded-lg bg-beige cursor-pointer hover:border-purple-700 transition-colors"
+      className="flex flex-row items-center justify-center px-40 py-24  border-2 border-dashed border-purple-500 rounded-lg bg-beige cursor-pointer hover:border-purple-700 transition-colors"
       onClick={handleContainerClick}
     >
-      <div className="w-5 h-5 text-gray-600">
+      <div className="w-5 h-5 mx-1 text-gray-600 gap-1">
         <img src="assets/cloud-upload.svg" alt="Upload" />
       </div>
       <h6 className="text-sm font-medium text-gray-600">Upload Image</h6>

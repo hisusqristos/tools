@@ -12,7 +12,7 @@ const EditorLayout: React.FC<EditorLayoutProps> = ({
   onDownload
 }) => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
+    <div className="flex flex-col items-center justify-center gap-3 min-h-screen bg-gray-50">
       <div className="flex flex-row justify-center items-center text-center space-x-3">
         {/* download button */}
         <button
@@ -29,7 +29,7 @@ const EditorLayout: React.FC<EditorLayoutProps> = ({
           <span className="text-small font-sans text-white">Try In Editor</span>
         </Link>
       </div>
-      <main className="flex-grow p-6 md:p-3 flex flex-col items-center space-y-1">
+      <main className="flex flex-col items-center gap-3">
         {children}
       </main>
     </div>
