@@ -13,7 +13,6 @@ const Grayscale = () => {
 
   return (
     <EditorLayout 
-      title="Grayscale Image" 
       toolIcon="assets/grayscale.svg"
       onDownload={image ? handleDownload : undefined}
     >
