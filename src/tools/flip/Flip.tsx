@@ -27,7 +27,7 @@ const Flip = () => {
       <canvas
         id="canvas"
         ref={canvasRef}
-        className="max-w-full rounded-lg shadow-md"
+        className="max-w-38 max-h-30 rounded-lg shadow-md"
         style={{ display: `${!image ? "none" : "block"}` }}
       />
       {!image ? (
