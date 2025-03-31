@@ -20,6 +20,12 @@ module.exports = {
       },
       fontSize : {
         small : '16px'
+      },
+      maxHeight : {
+        30 : 480
+      },
+      maxWidth : {
+        38 : 600
       }
     },
   },
