@@ -11,7 +11,9 @@ module.exports = {
           600: '#7F56D9',
           700: '#6941C6',
         },
-        beige : '#f2f2f2'
+        beige : {
+          200 :'#f2f2f2',
+        300: '#ededed'}
       },
       fontFamily: {
         sans: ['Poppins', 'sans-serif'],
