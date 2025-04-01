@@ -22,16 +22,16 @@ module.exports = {
         small : '16px'
       },
       maxHeight : {
-        img : 800
+        img : 600
       },
       maxWidth : {
-        img : 800
+        img : 600
       },
       minHeight : {
-        img : 500
+        img : 300
       },
       minWidth : {
-        img : 500
+        img : 300
       }
     },
   },

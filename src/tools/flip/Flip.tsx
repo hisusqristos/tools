@@ -22,7 +22,7 @@ const Flip = () => {
   const handleRotate = (direction: 'left' | 'right') => {
     const ctx = canvasRef.current!.getContext('2d');
     const rotateDeg = (direction === 'right') ? 90 : 270
-    
+
     if (ctx && image) {
       applyTransform(ctx, { rotation: rotateDeg })
     };
@@ -45,7 +45,7 @@ const Flip = () => {
       <canvas
         id="canvas"
         ref={canvasRef}
-        className="rounded-lg shadow-md" // max-w-img max-h-img min-w-img min-h-img
+        className="max-w-img max-h-img min-w-img min-h-img rounded-lg shadow-md"
         style={{ display: `${!image ? "none" : "block"}` }}
       />
     </EditorLayout>
