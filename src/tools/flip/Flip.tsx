@@ -19,6 +19,15 @@ const Flip = () => {
     };
   };
 
+  const handleRotate = (direction: 'left' | 'right') => {
+    const ctx = canvasRef.current!.getContext('2d');
+    const rotateDeg = (direction === 'right') ? 90 : 270
+
+    if (ctx && image) {
+      applyTransform(ctx, { rotation: rotateDeg })
+    };
+  };
+
   return (
     <EditorLayout
       toolIcon="assets/flip-horizontal.svg"
@@ -29,7 +38,7 @@ const Flip = () => {
         <DragAndDrop onUploadAction={handleUpload} />
       ) : (
         <>
-          <FlipControls applyFlip={handleFlip} />
+          <FlipControls applyFlip={handleFlip} applyRotate={handleRotate} />
         </>
       )}
 

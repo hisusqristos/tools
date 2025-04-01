@@ -12,36 +12,48 @@ function applyTransform(ctx: CanvasRenderingContext2D, options: Partial<Transfor
         scaleY = 1
     } = options;
 
-    // Create a temporary canvas to store the current state
+    const rad = (rotation * Math.PI) / 180;
+
+    const originalWidth = canvas.width;
+    const originalHeight = canvas.height;
+
+    const normalizedRotation = ((rotation % 360) + 360) % 360;
+
+    let newWidth = canvas.width;
+    let newHeight = canvas.height;
+
+    if (normalizedRotation === 90 || normalizedRotation === 270) {
+        [newWidth, newHeight] = [canvas.height, canvas.width];
+    }
+    
+    // Create a temporary canvas with updated dimensions
     const tempCanvas = document.createElement('canvas');
-    tempCanvas.width = canvas.width;
-    tempCanvas.height = canvas.height;
-    const tempCtx = tempCanvas.getContext('2d');
-
+    tempCanvas.width = originalWidth;
+    tempCanvas.height = originalHeight;
+    const tempCtx = tempCanvas.getContext('2d')!;
+    
     // Copy current canvas content to temp canvas
-    tempCtx!.drawImage(canvas, 0, 0);
+    tempCtx.drawImage(canvas, 0, 0);
 
-    // Clear the original canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Resize the original canvas to fit the new dimensions
+    canvas.width = newWidth;
+    canvas.height = newHeight;
 
-    // Calculate center of canvas for transform origin
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-
-    // Reset any existing transforms
+    // Clear and reset transformations
+    ctx.clearRect(0, 0, newWidth, newHeight);
     ctx.setTransform(1, 0, 0, 1, 0, 0);
 
-    // Set up the transformation
-    ctx.translate(centerX, centerY);
-    ctx.rotate((rotation * Math.PI) / 180);
-    ctx.scale(
-        flipH ? -1 * scaleX : scaleX,
-        flipV ? -1 * scaleY : scaleY
-    );
-    ctx.translate(-centerX, -centerY);
+    // Calculate the center of the new bounding box
+    const centerX = newWidth / 2;
+    const centerY = newHeight / 2;
 
-    // Draw the temp canvas content with the applied transformation
-    ctx.drawImage(tempCanvas, 0, 0);
+    // Translate to the new center, rotate, and scale
+    ctx.translate(centerX, centerY);
+    ctx.rotate(rad);
+    ctx.scale(flipH ? -1 * scaleX : scaleX, flipV ? -1 * scaleY : scaleY);
+
+    // Shift back by half of original dimensions to keep content centered
+    ctx.drawImage(tempCanvas, -originalWidth / 2, -originalHeight / 2);
 
     // Reset transform for future operations
     ctx.setTransform(1, 0, 0, 1, 0, 0);
