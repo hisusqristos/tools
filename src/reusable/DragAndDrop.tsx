@@ -2,9 +2,9 @@ import React from "react";
 
 interface ImageInputProps {
   onUploadAction: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
+};
 
-const ImageInput: React.FC<ImageInputProps> = ({ onUploadAction }) => {
+const DragAndDrop: React.FC<ImageInputProps> = ({ onUploadAction }) => {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = React.useState(false);
 
@@ -53,4 +53,4 @@ const ImageInput: React.FC<ImageInputProps> = ({ onUploadAction }) => {
   );
 };
 
-export default ImageInput;
+export default DragAndDrop;

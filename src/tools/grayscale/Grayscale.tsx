@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import ImageInput from "../../reusable/ImageInput";
+import DragAndDrop from "../../reusable/DragAndDrop";
 import useHandleFile from "../../hooks/useHandleFile";
 import { toGrayscale } from "./toGrayscale";
 import ComparisonSlider from "../../reusable/ComparisonSlider";
@@ -15,11 +15,12 @@ const Grayscale = () => {
     <EditorLayout 
       toolIcon="assets/grayscale.svg"
       onDownload={image ? handleDownload : undefined}
+      onUpload={handleUpload}
     >
       <canvas ref={canvasRef} className="hidden" />
       
       {!image ? (
-        <ImageInput onUploadAction={handleUpload} />
+        <DragAndDrop onUploadAction={handleUpload} />
       ) : (
         <div className="w-full max-w-4xl">
           <ComparisonSlider 
