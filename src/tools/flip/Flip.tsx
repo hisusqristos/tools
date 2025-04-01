@@ -32,11 +32,11 @@ const Flip = () => {
           <FlipControls applyFlip={handleFlip} />
         </>
       )}
-      
+
       <canvas
         id="canvas"
         ref={canvasRef}
-        className="max-w-38 max-h-30 rounded-lg shadow-md"
+        className="max-w-img max-h-img min-w-img min-h-img rounded-lg shadow-md"
         style={{ display: `${!image ? "none" : "block"}` }}
       />
     </EditorLayout>
