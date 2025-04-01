@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import ImageInput from "../../reusable/ImageInput";
+import DragAndDrop from "../../reusable/DragAndDrop";
 import useHandleFile from "../../hooks/useHandleFile";
 import applyTransform from "./FlipTransformer";
 import FlipControls from "./FlipControls";
@@ -23,20 +23,22 @@ const Flip = () => {
     <EditorLayout
       toolIcon="assets/flip-horizontal.svg"
       onDownload={image ? handleDownload : undefined}
+      onUpload={handleUpload}
     >
+      {!image ? (
+        <DragAndDrop onUploadAction={handleUpload} />
+      ) : (
+        <>
+          <FlipControls applyFlip={handleFlip} />
+        </>
+      )}
+      
       <canvas
         id="canvas"
         ref={canvasRef}
         className="max-w-38 max-h-30 rounded-lg shadow-md"
         style={{ display: `${!image ? "none" : "block"}` }}
       />
-      {!image ? (
-        <ImageInput onUploadAction={handleUpload} />
-      ) : (
-        <>
-          <FlipControls applyFlip={handleFlip} />
-        </>
-      )}
     </EditorLayout>
   );
 };

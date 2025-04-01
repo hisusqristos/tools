@@ -1,7 +1,8 @@
 import { useRef } from "react"
-import ImageInput from "../../reusable/ImageInput"
+import DragAndDrop from "../../reusable/DragAndDrop"
 import DownloadButton from "../../reusable/DownloadButton"
 import useHandleFile from "../../hooks/useHandleFile";
+import UploadButton from "../../reusable/UploadButton";
 
 const Crop = () => {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -9,13 +10,12 @@ const Crop = () => {
     const { image, handleUpload, handleDownload } = useHandleFile(canvasRef);
 
     return (<>
-        <ImageInput onUploadAction={handleUpload} />
+        <UploadButton onUpload={handleUpload} />
         <canvas id="canvas" ref={canvasRef} />
 
         {image && <canvas ref={overlayCanvasRef} />}
         {!image && <div> Upload an image to begin editing </div>}
 
-        <DownloadButton onClickAction={handleDownload} />
     </>)
 };
 
