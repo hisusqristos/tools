@@ -2,7 +2,12 @@ import HomePage from "./HomePage";
 import Crop from "./tools/crop/Crop";
 import Flip from "./tools/flip/Flip";
 import Grayscale from "./tools/grayscale/Grayscale";
-
+import ColorBalance from "./tools/colorBalance";
+import Brightness from "./tools/brightness";
+import Glitch from "./tools/glitch";
+import Filters from "./tools/filters";
+import Text from "./tools/text";
+import Watermark from "./tools/watermark";
 
 import { HashRouter as Router, Routes, Route, useParams } from "react-router-dom";
 
@@ -14,6 +19,18 @@ const ToolSelector = ({ tool }: { tool?: string }) => {
       return <Flip />;
     case "grayscale":
       return <Grayscale />;
+    case "colorBalance":
+      return <ColorBalance />;
+    case "brightness":
+      return <Brightness />;
+    case "glitch":
+      return <Glitch />;
+    case "filters":
+      return <Filters />;
+    case "text":
+      return <Text />;
+    case "watermark":
+      return <Watermark />;
     default:
       return (
         <div className="flex flex-col items-center justify-center h-screen p-6 bg-gray-50">

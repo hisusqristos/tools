@@ -21,6 +21,42 @@ const HomePage = () => {
       description: "Crop your images to the perfect size",
       icon: "assets/crop.svg"
     },
+    {
+      id: "colorBalance",
+      name: "Color Balance",
+      description: "Fine-tune the color balance of your images",
+      icon: "assets/color-balance.svg"
+    },
+    {
+      id: "brightness",
+      name: "Brightness/Contrast",
+      description: "Adjust brightness and contrast to enhance your photos",
+      icon: "assets/brightness.svg"
+    },
+    {
+      id: "glitch",
+      name: "Glitch Effects",
+      description: "Add trendy glitch effects to your images",
+      icon: "assets/glitch.svg"
+    },
+    {
+      id: "filters",
+      name: "Photo Filters",
+      description: "Apply Instagram-style filters to your images",
+      icon: "assets/filters.svg"
+    },
+    {
+      id: "text",
+      name: "Text Overlay",
+      description: "Add customizable text to your images",
+      icon: "assets/text.svg"
+    },
+    {
+      id: "watermark",
+      name: "Watermark",
+      description: "Add text or image watermarks to protect your photos",
+      icon: "assets/watermark.svg"
+    }
     // Add more tools as needed
   ];
 
