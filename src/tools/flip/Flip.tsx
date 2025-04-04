@@ -7,7 +7,8 @@ import EditorLayout from "../../EditorLayout";
 
 const Flip = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const { image, handleUpload, handleDownload } = useHandleFile(canvasRef);
+  const fullResCanvasRef = useRef<HTMLCanvasElement | null>(null);
+  const { image, handleUpload, handleDownload } = useHandleFile(canvasRef, fullResCanvasRef);
 
   const handleFlip = (direction: 'horizontal' | 'vertical') => {
     const ctx = canvasRef.current!.getContext('2d');
@@ -42,12 +43,17 @@ const Flip = () => {
         </>
       )}
 
-      <canvas
-        id="canvas"
-        ref={canvasRef}
-        className="max-w-img max-h-img min-w-img min-h-img rounded-lg shadow-md"
-        style={{ display: `${!image ? "none" : "block"}` }}
-      />
+      <div className={`flex flex-row items-center justify-center overflow-hidden ${!image ? "hidden" : "block"}`} >
+        <canvas
+          ref={canvasRef}
+          className="rounded-lg shadow-md max-w-full max-h-full"
+        />
+
+        <canvas
+          ref={fullResCanvasRef}
+          style={{ display: 'none' }}
+        />
+      </div>
     </EditorLayout>
   );
 };

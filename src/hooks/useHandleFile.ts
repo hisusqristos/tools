@@ -1,10 +1,14 @@
 import { useState, useCallback } from 'react';
+import { drawScaledImage } from '../reusable/scaleCanvas';
 
 /**
  * @param {React.RefObject} canvasRef - Reference to the canvas element
  * @return {Object} Object containing image, handleUpload and handleDownload functions
  */
-const useHandleFile = (canvasRef: React.RefObject<HTMLCanvasElement | null>) => {
+const useHandleFile = (
+    previewCanvasRef: React.RefObject<HTMLCanvasElement | null>,
+    fullResCanvasRef?: React.RefObject<HTMLCanvasElement | null>
+) => {
     const [image, setImage] = useState<HTMLImageElement | null>(null);
 
     /**
@@ -19,27 +23,29 @@ const useHandleFile = (canvasRef: React.RefObject<HTMLCanvasElement | null>) => 
         reader.onload = (e) => {
             const img = new Image();
             img.onload = () => {
-                if (canvasRef.current) {
-                    const canvas = canvasRef.current;
-                    const ctx = canvas.getContext('2d');
-
-                    canvas.width = img.width;
-                    canvas.height = img.height;
-
-                    ctx!.drawImage(img, 0, 0, img.width, img.height);
+                const fullCanvas = fullResCanvasRef?.current ?? previewCanvasRef.current;
+                if (fullCanvas) {
+                    fullCanvas.width = img.width;
+                    fullCanvas.height = img.height;
+                    fullCanvas.getContext('2d')?.drawImage(img, 0, 0);
                 }
+
+                if (fullResCanvasRef?.current && previewCanvasRef.current) {
+                    drawScaledImage(previewCanvasRef.current, img, 600, 600);
+                }
+
                 setImage(img);
             };
             img.src = e.target?.result as string;
         };
         reader.readAsDataURL(file);
-    }, [canvasRef]);
+    }, [previewCanvasRef, fullResCanvasRef]);
 
 
     const handleDownload = useCallback(() => {
-        if (!canvasRef.current) return;
+        if (!previewCanvasRef.current) return;
 
-        const canvas = canvasRef.current;
+        const canvas = previewCanvasRef.current;
         const link = document.createElement('a');
         const dataURL = canvas.toDataURL('image/png');
 
@@ -49,7 +55,7 @@ const useHandleFile = (canvasRef: React.RefObject<HTMLCanvasElement | null>) => 
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-    }, [canvasRef]);
+    }, [previewCanvasRef, fullResCanvasRef]);
 
     return {
         image,
