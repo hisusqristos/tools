@@ -6,26 +6,31 @@ import FlipControls from "./FlipControls";
 import EditorLayout from "../../EditorLayout";
 
 const Flip = () => {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const fullResCanvasRef = useRef<HTMLCanvasElement | null>(null);
-  const { image, handleUpload, handleDownload } = useHandleFile(canvasRef, fullResCanvasRef);
+  const originalCanvasRef = useRef<HTMLCanvasElement | null>(null);
+  const previewCanvasRef = useRef<HTMLCanvasElement | null>(null);
+  const { image, handleUpload, handleDownload } = useHandleFile(originalCanvasRef, previewCanvasRef);
 
   const handleFlip = (direction: 'horizontal' | 'vertical') => {
-    const ctx = canvasRef.current!.getContext('2d');
+    const ctx = previewCanvasRef.current!.getContext('2d');
+    const originalCtx = originalCanvasRef.current!.getContext('2d');
+
     const isHorizontal = (direction === 'horizontal');
     const isVertical = (direction === 'vertical');
 
-    if (ctx && image) {
-      applyTransform(ctx, { flipH: isHorizontal, flipV: isVertical })
+    if (ctx && originalCtx) {
+      applyTransform(ctx, { flipH: isHorizontal, flipV: isVertical });
+      applyTransform(originalCtx, { flipH: isHorizontal, flipV: isVertical });
     };
   };
 
   const handleRotate = (direction: 'left' | 'right') => {
-    const ctx = canvasRef.current!.getContext('2d');
+    const ctx = previewCanvasRef.current!.getContext('2d');
+    const originalCtx = originalCanvasRef.current!.getContext('2d');
     const rotateDeg = (direction === 'right') ? 90 : 270
 
-    if (ctx && image) {
-      applyTransform(ctx, { rotation: rotateDeg })
+    if (ctx && originalCtx) {
+      applyTransform(ctx, { rotation: rotateDeg });
+      applyTransform(originalCtx, { rotation: rotateDeg });
     };
   };
 
@@ -45,14 +50,10 @@ const Flip = () => {
 
       <div className={`flex flex-row items-center justify-center overflow-hidden ${!image ? "hidden" : "block"}`} >
         <canvas
-          ref={canvasRef}
+          ref={previewCanvasRef}
           className="rounded-lg shadow-md max-w-full max-h-full"
         />
-
-        <canvas
-          ref={fullResCanvasRef}
-          style={{ display: 'none' }}
-        />
+        <canvas ref={originalCanvasRef} className="hidden"></canvas>
       </div>
     </EditorLayout>
   );
