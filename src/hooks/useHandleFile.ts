@@ -41,7 +41,6 @@ const useHandleFile = (originalCanvasRef: React.RefObject<HTMLCanvasElement | nu
     
     const handleDownload = () => {
         if (!originalCanvasRef.current) return;
-        console.log(originalCanvasRef.current.width, originalCanvasRef.current.height)
         const originalCanvas = originalCanvasRef.current;
         const link = document.createElement('a');
         link.href = originalCanvas.toDataURL('image/png');
