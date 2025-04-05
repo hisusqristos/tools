@@ -1,21 +1,18 @@
-import { useState, useCallback } from 'react';
-import { drawScaledImage } from '../reusable/scaleCanvas';
+import { useState } from 'react';
+import { drawScaledImage } from '../reusable/drawScaledImage';
 
 /**
  * @param {React.RefObject} canvasRef - Reference to the canvas element
  * @return {Object} Object containing image, handleUpload and handleDownload functions
  */
-const useHandleFile = (
-    previewCanvasRef: React.RefObject<HTMLCanvasElement | null>,
-    fullResCanvasRef?: React.RefObject<HTMLCanvasElement | null>
-) => {
+const useHandleFile = (originalCanvasRef: React.RefObject<HTMLCanvasElement | null>, previewCanvasRef?: React.RefObject<HTMLCanvasElement | null>) => {
     const [image, setImage] = useState<HTMLImageElement | null>(null);
 
     /**
      * Handles file upload from input element
      * @param {Event} event - The change event from file input
      */
-    const handleUpload = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files![0];
         if (!file || !file.type.match('image.*')) return;
 
@@ -23,14 +20,14 @@ const useHandleFile = (
         reader.onload = (e) => {
             const img = new Image();
             img.onload = () => {
-                const fullCanvas = fullResCanvasRef?.current ?? previewCanvasRef.current;
-                if (fullCanvas) {
-                    fullCanvas.width = img.width;
-                    fullCanvas.height = img.height;
-                    fullCanvas.getContext('2d')?.drawImage(img, 0, 0);
+                if (originalCanvasRef.current) {
+                    originalCanvasRef.current.width = img.width;
+                    originalCanvasRef.current.height = img.height;
+                    const ctx = originalCanvasRef.current.getContext('2d');
+                    ctx?.drawImage(img, 0, 0);
                 }
 
-                if (fullResCanvasRef?.current && previewCanvasRef.current) {
+                if (previewCanvasRef?.current) {
                     drawScaledImage(previewCanvasRef.current, img, 600, 600);
                 }
 
@@ -39,29 +36,23 @@ const useHandleFile = (
             img.src = e.target?.result as string;
         };
         reader.readAsDataURL(file);
-    }, [previewCanvasRef, fullResCanvasRef]);
+    };
 
-
-    const handleDownload = useCallback(() => {
-        if (!previewCanvasRef.current) return;
-
-        const canvas = previewCanvasRef.current;
+    
+    const handleDownload = () => {
+        if (!originalCanvasRef.current) return;
+        console.log(originalCanvasRef.current.width, originalCanvasRef.current.height)
+        const originalCanvas = originalCanvasRef.current;
         const link = document.createElement('a');
-        const dataURL = canvas.toDataURL('image/png');
-
-        link.href = dataURL;
+        link.href = originalCanvas.toDataURL('image/png');
         link.download = 'edited-image.png';
 
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-    }, [previewCanvasRef, fullResCanvasRef]);
-
-    return {
-        image,
-        handleUpload,
-        handleDownload
     };
+
+    return { image, handleUpload, handleDownload };
 };
 
 export default useHandleFile;
