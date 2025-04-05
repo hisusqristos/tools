@@ -1,6 +1,6 @@
 function drawScaledImage(
     canvas: HTMLCanvasElement,
-    image: HTMLImageElement,
+    image: HTMLImageElement | HTMLCanvasElement,
     maxWidth: number,
     maxHeight: number
 ) {
