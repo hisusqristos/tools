@@ -15,7 +15,7 @@ const DownloadButton: React.FC<DownloadButtonProps> = ({
       onClick={downloadAction}
       disabled={!downloadAction}
     >
-      <img className="size-3 text-white" src="assets/download.svg" alt="Download" />
+      <img className="size-[70%] text-white" src="assets/download.svg" alt="Download" />
       <span className="text-small font-sans">Download</span>
     </button>
   );
