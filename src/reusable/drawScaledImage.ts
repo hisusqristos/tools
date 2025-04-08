@@ -1,13 +1,12 @@
 function drawScaledImage(
     canvas: HTMLCanvasElement,
     image: HTMLImageElement | HTMLCanvasElement,
-    maxWidth: number,
-    maxHeight: number
+    maxValue: number
 ) {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const scale = Math.min(maxWidth / image.width, maxHeight / image.height);
+    const scale = Math.min(maxValue / image.width, maxValue / image.height);
     const width = Math.round(image.width * scale);
     const height = Math.round(image.height * scale);
 

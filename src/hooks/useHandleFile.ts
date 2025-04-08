@@ -5,7 +5,7 @@ import { drawScaledImage } from '../reusable/drawScaledImage';
  * @param {React.RefObject} canvasRef - Reference to the canvas element
  * @return {Object} Object containing image, handleUpload and handleDownload functions
  */
-const useHandleFile = (originalCanvasRef: React.RefObject<HTMLCanvasElement | null>, previewCanvasRef?: React.RefObject<HTMLCanvasElement | null>) => {
+const useHandleFile = (originalCanvasRef: React.RefObject<HTMLCanvasElement | null>, previewCanvasRef?: React.RefObject<HTMLCanvasElement | null>, limit?: number) => {
     const [image, setImage] = useState<HTMLImageElement | null>(null);
 
     /**
@@ -28,7 +28,8 @@ const useHandleFile = (originalCanvasRef: React.RefObject<HTMLCanvasElement | nu
                 }
 
                 if (previewCanvasRef?.current) {
-                    drawScaledImage(previewCanvasRef.current, img, 600, 600);
+                    const maxSize = limit ?? 300;
+                    drawScaledImage(previewCanvasRef.current, img, maxSize);
                 }
 
                 setImage(img);
@@ -38,7 +39,7 @@ const useHandleFile = (originalCanvasRef: React.RefObject<HTMLCanvasElement | nu
         reader.readAsDataURL(file);
     };
 
-    
+
     const handleDownload = () => {
         if (!originalCanvasRef.current) return;
         const originalCanvas = originalCanvasRef.current;

@@ -5,10 +5,10 @@ import applyTransform from "./FlipTransformer";
 import FlipControls from "./FlipControls";
 import EditorLayout from "../../EditorLayout";
 
-const Flip = () => {
+const Flip = ({ maxCanvasSize }: { maxCanvasSize?: number }) => {
   const originalCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement | null>(null);
-  const { image, handleUpload, handleDownload } = useHandleFile(originalCanvasRef, previewCanvasRef);
+  const { image, handleUpload, handleDownload } = useHandleFile(originalCanvasRef, previewCanvasRef, maxCanvasSize);
 
   const handleFlip = (direction: 'horizontal' | 'vertical') => {
     const ctx = previewCanvasRef.current!.getContext('2d');
@@ -43,12 +43,10 @@ const Flip = () => {
       {!image ? (
         <DragAndDrop onUploadAction={handleUpload} />
       ) : (
-        <>
-          <FlipControls applyFlip={handleFlip} applyRotate={handleRotate} />
-        </>
+        <FlipControls applyFlip={handleFlip} applyRotate={handleRotate} />
       )}
 
-      <div className={`flex flex-row items-center justify-center overflow-hidden ${!image ? "hidden" : "block"}`} >
+      <div className={`flex w-full h-full flex-row items-center justify-center overflow-hidden ${!image ? "hidden" : "block"}`} >
         <canvas
           ref={previewCanvasRef}
           className="rounded-lg shadow-md max-w-full max-h-full"
