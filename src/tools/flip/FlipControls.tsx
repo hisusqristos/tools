@@ -7,7 +7,7 @@ interface FlipControlsProps {
 
 const FlipControls: React.FC<FlipControlsProps> = ({ applyFlip, applyRotate }) => {
     return (
-        <div className="flex flex-row flex-wrap justify-center gap-4">
+        <div className="flex flex-row justify-center whitespace-nowrap gap-4">
             <TransformButton icon="assets/flip-horizontal.svg" text="Flip Horizontally" onClickAction={() => applyFlip('horizontal')} />
             <TransformButton icon="assets/flip-vertical.svg" text="Flip Vertically" onClickAction={() => applyFlip('vertical')} />
             <TransformButton icon="assets/rotate-left.svg" text="Rotate Left" onClickAction={() => applyRotate('left')} />
