@@ -17,22 +17,22 @@ const EditorLayout: React.FC<EditorLayoutProps> = ({
 }) => {
   return (
     <div className="flex flex-col items-center justify-center gap-3 min-h-screen bg-gray-50">
-      <main className="flex flex-col items-center gap-3">
-        {children}
+      <div className="flex flex-col gap-3 w-full max-w-xl mx-auto">
+        <main className="flex flex-col items-center gap-3">
+          {children}
+        </main>
 
-        <div className="flex flex-row justify-between w-full">
-
+        <div className="flex flex-row justify-between mx-3">
           <div className="flex gap-3">
             <UploadButton onUpload={onUpload} />
             <DownloadButton downloadAction={onDownload} />
           </div>
 
-          <Link to="/" className="flex space-x-2 px-3 py-1 border rounded-md border-purple-600 bg-purple-600 hover:bg-purple-700">
-            <span className="text-small font-sans text-white">Try In Editor</span>
+          <Link to="/" className="flex items-center justify-center px-3 border rounded-md border-purple-600 bg-purple-600 hover:bg-purple-700">
+            <h6 className="text-[90%] font-sans text-white">Try In Editor</h6>
           </Link>
-
         </div>
-      </main>
+      </div>
     </div>
   );
 };

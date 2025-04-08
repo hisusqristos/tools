@@ -19,19 +19,19 @@ const Watermark = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   // Canvas for preview (visible to user)
   const previewCanvasRef = useRef<HTMLCanvasElement | null>(null);
-  
+
   // Use the hook for image handling
-  const { image, handleUpload, handleDownload: originalHandleDownload } = useHandleFile(canvasRef);
-  
+  const { image, handleUpload, handleDownload: originalHandleDownload } = useHandleFile(canvasRef, previewCanvasRef);
+
   // Watermark image if uploading one
   const [watermarkImage, setWatermarkImage] = useState<HTMLImageElement | null>(null);
-  
+
   // Watermark options state
   const [watermarkOptions, setWatermarkOptions] = useState<WatermarkOptions>(defaultWatermarkOptions);
-  
+
   // Store the actual values in a ref to avoid rerenders
-  const watermarkValuesRef = useRef<WatermarkOptions>({...defaultWatermarkOptions});
-  
+  const watermarkValuesRef = useRef<WatermarkOptions>({ ...defaultWatermarkOptions });
+
   // Positions for the dropdown
   const positions: { value: WatermarkPosition; label: string }[] = [
     { value: 'topLeft', label: 'Top Left' },
@@ -44,13 +44,13 @@ const Watermark = () => {
     { value: 'bottomCenter', label: 'Bottom Center' },
     { value: 'bottomRight', label: 'Bottom Right' }
   ];
-  
+
   // Watermark type options
   const watermarkTypes: { value: WatermarkType; label: string }[] = [
     { value: 'text', label: 'Text Watermark' },
     { value: 'image', label: 'Image Watermark' }
   ];
-  
+
   // Text alignment options
   const textAlignOptions: { value: TextAlign; label: string }[] = [
     { value: 'left', label: 'Left' },
@@ -61,96 +61,96 @@ const Watermark = () => {
   // Function to update the preview canvas
   const updatePreview = useCallback(() => {
     if (!image || !previewCanvasRef.current) return;
-    
+
     // If watermark type is 'image', make sure we have the image in options
-    const options = {...watermarkValuesRef.current};
+    const options = { ...watermarkValuesRef.current };
     if (options.type === 'image') {
       options.image = watermarkImage || undefined;
     }
-    
+
     adjustWatermark(
       image,
       previewCanvasRef.current,
       options
     );
   }, [image, watermarkImage]);
-  
+
   // Generic option update handler
   const updateOption = useCallback((key: keyof WatermarkOptions, value: any) => {
     watermarkValuesRef.current = {
       ...watermarkValuesRef.current,
       [key]: value
     };
-    
+
     setWatermarkOptions(prev => ({
       ...prev,
       [key]: value
     }));
-    
+
     requestAnimationFrame(updatePreview);
   }, [updatePreview]);
-  
+
   // Handle type change
   const handleTypeChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     const newType = e.target.value as WatermarkType;
     updateOption('type', newType);
   }, [updateOption]);
-  
+
   // Handle text input change
   const handleTextChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     updateOption('text', e.target.value);
   }, [updateOption]);
-  
+
   // Handle position change
   const handlePositionChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     updateOption('position', e.target.value as WatermarkPosition);
   }, [updateOption]);
-  
+
   // Handle opacity change
   const handleOpacityChange = useCallback((value: number) => {
     updateOption('opacity', value);
   }, [updateOption]);
-  
+
   // Handle padding change
   const handlePaddingChange = useCallback((value: number) => {
     updateOption('padding', value);
   }, [updateOption]);
-  
+
   // Handle text font change
   const handleFontChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     updateOption('textFont', e.target.value);
   }, [updateOption]);
-  
+
   // Handle text size change
   const handleTextSizeChange = useCallback((value: number) => {
     updateOption('textSize', value);
   }, [updateOption]);
-  
+
   // Handle text color change
   const handleTextColorChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     updateOption('textColor', e.target.value);
   }, [updateOption]);
-  
+
   // Handle text style change
   const handleTextStyleChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     updateOption('textStyle', e.target.value);
   }, [updateOption]);
-  
+
   // Handle text align change
   const handleTextAlignChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     updateOption('textAlign', e.target.value as TextAlign);
   }, [updateOption]);
-  
+
   // Handle image size change
   const handleImageSizeChange = useCallback((value: number) => {
     updateOption('imageSize', value);
   }, [updateOption]);
-  
+
   // Handle watermark image upload
   const handleWatermarkImageUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file || !file.type.match('image.*')) return;
-    
+
     const reader = new FileReader();
     reader.onload = (event) => {
       const img = new Image();
@@ -162,16 +162,16 @@ const Watermark = () => {
     };
     reader.readAsDataURL(file);
   }, [updateOption]);
-  
+
   // Create a custom download handler that applies watermark before download
   const handleDownload = useCallback(() => {
     if (!image || !canvasRef.current) return;
-    
-    const options = {...watermarkValuesRef.current};
+
+    const options = { ...watermarkValuesRef.current };
     if (options.type === 'image') {
       options.image = watermarkImage || undefined;
     }
-    
+
     // Apply current watermark to the download canvas
     adjustWatermark(
       image,
@@ -179,14 +179,14 @@ const Watermark = () => {
       options,
       true
     );
-    
+
     // Use the original download function from the hook
     originalHandleDownload();
   }, [image, originalHandleDownload, watermarkImage]);
-  
+
   // Reset watermark options to default
   const handleReset = useCallback(() => {
-    const defaultOptions = {...defaultWatermarkOptions};
+    const defaultOptions = { ...defaultWatermarkOptions };
     watermarkValuesRef.current = defaultOptions;
     setWatermarkOptions(defaultOptions);
     setWatermarkImage(null);
@@ -207,23 +207,25 @@ const Watermark = () => {
       onUpload={handleUpload}
     >
       <canvas ref={canvasRef} className="hidden" />
-      
+
       {!image ? (
         <DragAndDrop onUploadAction={handleUpload} />
       ) : (
         <div className="w-full max-w-6xl flex flex-col md:flex-row gap-4">
           {/* Preview canvas area */}
           <div className="w-full md:w-2/3 flex justify-center">
-            <canvas
-              ref={previewCanvasRef}
-              className="max-w-full max-h-[70vh] rounded-lg shadow-md"
-            />
+            <div>
+              <canvas
+                ref={previewCanvasRef}
+                className="max-w-full max-h-full rounded-lg shadow-md"
+              />
+            </div>
           </div>
-          
+
           {/* Controls area */}
           <div className="w-full md:w-1/3 p-4 bg-white rounded-lg shadow space-y-4">
             <h3 className="text-lg font-semibold text-gray-800 mb-3">Watermark Settings</h3>
-            
+
             {/* Reset button */}
             <div className="text-right mb-4">
               <button
@@ -233,7 +235,7 @@ const Watermark = () => {
                 Reset
               </button>
             </div>
-            
+
             {/* Watermark type selector */}
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -249,7 +251,7 @@ const Watermark = () => {
                 ))}
               </select>
             </div>
-            
+
             {/* Watermark position selector */}
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -265,7 +267,7 @@ const Watermark = () => {
                 ))}
               </select>
             </div>
-            
+
             {/* Opacity slider */}
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -279,7 +281,7 @@ const Watermark = () => {
                 onChange={handleOpacityChange}
               />
             </div>
-            
+
             {/* Padding slider */}
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -293,7 +295,7 @@ const Watermark = () => {
                 onChange={handlePaddingChange}
               />
             </div>
-            
+
             {/* Text watermark options */}
             {watermarkOptions.type === 'text' && (
               <>
@@ -309,7 +311,7 @@ const Watermark = () => {
                     className="w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                   />
                 </div>
-                
+
                 <div className="mb-4">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Font
@@ -324,7 +326,7 @@ const Watermark = () => {
                     ))}
                   </select>
                 </div>
-                
+
                 <div className="mb-4 grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -340,7 +342,7 @@ const Watermark = () => {
                       ))}
                     </select>
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Alignment
@@ -356,7 +358,7 @@ const Watermark = () => {
                     </select>
                   </div>
                 </div>
-                
+
                 <div className="mb-4">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Text Size: {watermarkOptions.textSize}px
@@ -369,7 +371,7 @@ const Watermark = () => {
                     onChange={handleTextSizeChange}
                   />
                 </div>
-                
+
                 <div className="mb-4">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Text Color
@@ -388,7 +390,7 @@ const Watermark = () => {
                 </div>
               </>
             )}
-            
+
             {/* Image watermark options */}
             {watermarkOptions.type === 'image' && (
               <>
@@ -410,7 +412,7 @@ const Watermark = () => {
                     </div>
                   )}
                 </div>
-                
+
                 <div className="mb-4">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Size: {watermarkOptions.imageSize}%

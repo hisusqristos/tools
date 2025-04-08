@@ -5,26 +5,32 @@ import applyTransform from "./FlipTransformer";
 import FlipControls from "./FlipControls";
 import EditorLayout from "../../EditorLayout";
 
-const Flip = () => {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const { image, handleUpload, handleDownload } = useHandleFile(canvasRef);
+const Flip = ({ maxCanvasSize }: { maxCanvasSize?: number }) => {
+  const originalCanvasRef = useRef<HTMLCanvasElement | null>(null);
+  const previewCanvasRef = useRef<HTMLCanvasElement | null>(null);
+  const { image, handleUpload, handleDownload } = useHandleFile(originalCanvasRef, previewCanvasRef, maxCanvasSize);
 
   const handleFlip = (direction: 'horizontal' | 'vertical') => {
-    const ctx = canvasRef.current!.getContext('2d');
+    const ctx = previewCanvasRef.current!.getContext('2d');
+    const originalCtx = originalCanvasRef.current!.getContext('2d');
+
     const isHorizontal = (direction === 'horizontal');
     const isVertical = (direction === 'vertical');
 
-    if (ctx && image) {
-      applyTransform(ctx, { flipH: isHorizontal, flipV: isVertical })
+    if (ctx && originalCtx) {
+      applyTransform(ctx, { flipH: isHorizontal, flipV: isVertical });
+      applyTransform(originalCtx, { flipH: isHorizontal, flipV: isVertical });
     };
   };
 
   const handleRotate = (direction: 'left' | 'right') => {
-    const ctx = canvasRef.current!.getContext('2d');
+    const ctx = previewCanvasRef.current!.getContext('2d');
+    const originalCtx = originalCanvasRef.current!.getContext('2d');
     const rotateDeg = (direction === 'right') ? 90 : 270
 
-    if (ctx && image) {
-      applyTransform(ctx, { rotation: rotateDeg })
+    if (ctx && originalCtx) {
+      applyTransform(ctx, { rotation: rotateDeg });
+      applyTransform(originalCtx, { rotation: rotateDeg });
     };
   };
 
@@ -37,17 +43,16 @@ const Flip = () => {
       {!image ? (
         <DragAndDrop onUploadAction={handleUpload} />
       ) : (
-        <>
-          <FlipControls applyFlip={handleFlip} applyRotate={handleRotate} />
-        </>
+        <FlipControls applyFlip={handleFlip} applyRotate={handleRotate} />
       )}
 
-      <canvas
-        id="canvas"
-        ref={canvasRef}
-        className="max-w-img max-h-img min-w-img min-h-img rounded-lg shadow-md"
-        style={{ display: `${!image ? "none" : "block"}` }}
-      />
+      <div className={`flex w-full h-full flex-row items-center justify-center overflow-hidden ${!image ? "hidden" : "block"}`} >
+        <canvas
+          ref={previewCanvasRef}
+          className="rounded-lg shadow-md max-w-full max-h-full"
+        />
+        <canvas ref={originalCanvasRef} className="hidden"></canvas>
+      </div>
     </EditorLayout>
   );
 };
