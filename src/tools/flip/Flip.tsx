@@ -46,10 +46,10 @@ const Flip = ({ maxCanvasSize }: { maxCanvasSize?: number }) => {
         <FlipControls applyFlip={handleFlip} applyRotate={handleRotate} />
       )}
 
-      <div className={`flex w-full h-full flex-row items-center justify-center overflow-hidden ${!image ? "hidden" : "block"}`} >
+      <div className={`flex w-[${maxCanvasSize}px] h-[${maxCanvasSize}px] items-center justify-center bg-beige-200 rounded-2xl ${!image ? "hidden" : "block"}`} >
         <canvas
           ref={previewCanvasRef}
-          className="rounded-lg shadow-md max-w-full max-h-full"
+          className="rounded-lg shadow-md w-max h-max"
         />
         <canvas ref={originalCanvasRef} className="hidden"></canvas>
       </div>
