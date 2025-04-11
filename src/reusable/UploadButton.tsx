@@ -3,9 +3,9 @@ interface UploadButtonProps {
 }
 
 const UploadButton: React.FC<UploadButtonProps> = ({ onUpload }) => {
-    return (<label className="flex items-center space-x-2 px-3 py-1 rounded-md border border-purple-600 text-purple-600 cursor-pointer">
+    return (<label className="flex justify-center items-center space-x-2 px-5 py-1 rounded-lg border border-purple-600 text-purple-600 cursor-pointer">
         <img className="size-[75%] text-white" src="assets/cloud-upload.svg" alt="Upload" />
-        <span className="text-[85%] font-sans">Upload</span>
+        <span className="text-[87%] font-medium font-sans">Upload</span>
         <input
             type="file"
             className="hidden"

@@ -28,8 +28,8 @@ const EditorLayout: React.FC<EditorLayoutProps> = ({
             <DownloadButton downloadAction={onDownload} />
           </div>
 
-          <Link to="/" className="flex items-center justify-center px-3 border rounded-md border-purple-600 bg-purple-600 hover:bg-purple-700">
-            <h6 className="text-[90%] font-sans text-white">Try In Editor</h6>
+          <Link to="/" className="flex items-center justify-center px-7 border rounded-lg border-purple-600 bg-purple-600 hover:bg-purple-700">
+            <h6 className="text-[90%] font-sans font-medium text-white">Try In Editor</h6>
           </Link>
         </div>
       </div>
