@@ -32,15 +32,16 @@ const DragAndDrop: React.FC<ImageInputProps> = ({ onUploadAction }) => {
 
   return (
     <div
-      className={`flex flex-row items-center justify-center px-[35%] py-[20%] border-2 border-dashed rounded-lg bg-beige-200 cursor-pointer hover:bg-beige-300 transition-colors ${isDragging ? "border-purple-700 bg-beige-300" : "border-purple-500 hover:border-purple-700"}`}
+      className={`flex flex-col items-center justify-center px-[37%] py-[23%] border-2 border-dashed rounded-lg bg-beige-200 cursor-pointer hover:bg-beige-300 transition-colors ${isDragging ? "border-purple-700 bg-beige-300" : "border-purple-500 hover:border-purple-700"}`}
       onClick={handleContainerClick}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
     >
-
-      <img className="size-[45%] mx-2 text-gray-600 gap-3" src="assets/cloud-upload.svg" alt="Upload" />
-        <h6 className="text-[100%] font-medium text-gray-600 whitespace-nowrap"> Upload Image </h6>
+      <div className="flex flex-row items-center justify-center gap-3">
+        <img className="size-7" src="assets/cloud-upload.svg" alt="Upload" />
+        <h6 className="text-xl font-medium font-sans text-gray-600 whitespace-nowrap">Upload Image</h6>
+      </div>
       <input
         ref={inputRef}
         type="file"

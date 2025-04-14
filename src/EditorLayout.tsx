@@ -18,7 +18,7 @@ const EditorLayout: React.FC<EditorLayoutProps> = ({
   return (
     <div className="flex flex-col items-center justify-center gap-3 min-h-screen bg-gray-50">
       <div className="flex flex-col gap-3 w-full max-w-xl mx-auto">
-        <main className="flex flex-col items-center gap-3">
+        <main className="flex flex-col items-center gap-5">
           {children}
         </main>
 
@@ -28,8 +28,8 @@ const EditorLayout: React.FC<EditorLayoutProps> = ({
             <DownloadButton downloadAction={onDownload} />
           </div>
 
-          <Link to="/" className="flex items-center justify-center px-3 border rounded-md border-purple-600 bg-purple-600 hover:bg-purple-700">
-            <h6 className="text-[90%] font-sans text-white">Try In Editor</h6>
+          <Link to="/" className="flex items-center justify-center py-2 border px-[5%] rounded-lg border-purple-600 bg-purple-600 hover:bg-purple-700">
+            <h6 className="text-base font-sans font-medium text-white">Try In Editor</h6>
           </Link>
         </div>
       </div>
