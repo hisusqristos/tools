@@ -4,4 +4,9 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  margin : 0;
+  height : 100%;
+}
+
 /* Custom styles that aren't covered by Tailwind classes can go here */
