@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 
 /**
-     * Whenever the EditorLayout content changes in size it communicates the new dimensions to our IFrame
-     */
+* Whenever the EditorLayout content changes in size it communicates the new dimensions to our IFrame
+*/
 const useIframeResize = () => {
     const [editorSize, setEditorSize] = useState<{ width: number, height: number } | null>(null)
 
