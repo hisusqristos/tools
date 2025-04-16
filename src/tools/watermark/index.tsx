@@ -3,6 +3,8 @@ import useHandleFile from "../../hooks/useHandleFile";
 import DragAndDrop from "../../reusable/DragAndDrop";
 import EditorLayout from "../../EditorLayout";
 import RangeSlider from "../../reusable/RangeSlider";
+import useIframeResize from "../../hooks/useIframeResize";
+
 import {
   adjustWatermark,
   WatermarkOptions,
@@ -19,19 +21,20 @@ const Watermark = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   // Canvas for preview (visible to user)
   const previewCanvasRef = useRef<HTMLCanvasElement | null>(null);
-
+  
   // Use the hook for image handling
   const { image, handleUpload, handleDownload: originalHandleDownload } = useHandleFile(canvasRef, previewCanvasRef);
-
+  
   // Watermark image if uploading one
   const [watermarkImage, setWatermarkImage] = useState<HTMLImageElement | null>(null);
-
+  
   // Watermark options state
   const [watermarkOptions, setWatermarkOptions] = useState<WatermarkOptions>(defaultWatermarkOptions);
-
+  
   // Store the actual values in a ref to avoid rerenders
   const watermarkValuesRef = useRef<WatermarkOptions>({ ...defaultWatermarkOptions });
-
+  
+  useIframeResize()
   // Positions for the dropdown
   const positions: { value: WatermarkPosition; label: string }[] = [
     { value: 'topLeft', label: 'Top Left' },
