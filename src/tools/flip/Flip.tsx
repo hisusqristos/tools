@@ -4,11 +4,14 @@ import useHandleFile from "../../hooks/useHandleFile";
 import applyTransform from "./FlipTransformer";
 import FlipControls from "./FlipControls";
 import EditorLayout from "../../EditorLayout";
+import useIframeResize from "../../hooks/useIframeResize";
 
 const Flip = ({ maxCanvasSize }: { maxCanvasSize?: number }) => {
   const originalCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const { image, handleUpload, handleDownload } = useHandleFile(originalCanvasRef, previewCanvasRef, maxCanvasSize);
+
+  useIframeResize()
 
   const handleFlip = (direction: 'horizontal' | 'vertical') => {
     const ctx = previewCanvasRef.current!.getContext('2d');
@@ -46,12 +49,10 @@ const Flip = ({ maxCanvasSize }: { maxCanvasSize?: number }) => {
         <FlipControls applyFlip={handleFlip} applyRotate={handleRotate} />
       )}
 
-      <div
-        style={{ width: maxCanvasSize, height: maxCanvasSize }}
-        className={`flex items-center justify-center bg-beige-200 rounded-2xl ${!image ? "hidden" : "block"}`} >
+      <div className={`flex w-full h-full flex-row items-center justify-center overflow-hidden ${!image ? "hidden" : "block"}`} >
         <canvas
           ref={previewCanvasRef}
-          className="rounded-lg shadow-md w-max h-max"
+          className="rounded-lg shadow-md max-w-full max-h-full"
         />
         <canvas ref={originalCanvasRef} className="hidden"></canvas>
       </div>
