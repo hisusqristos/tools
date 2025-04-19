@@ -8,6 +8,7 @@ import Glitch from "./tools/glitch";
 import Filters from "./tools/filters";
 import Text from "./tools/text";
 import Watermark from "./tools/watermark";
+import ColorPalette from "./tools/colorPalette/ColorPalette";
 
 import { HashRouter as Router, Routes, Route, useParams, useSearchParams } from "react-router-dom";
 
@@ -31,6 +32,8 @@ const ToolSelector = ({ tool, size }: { tool?: string, size?: number }) => {
       return <Text />;
     case "watermark":
       return <Watermark />;
+    case "color-palette":
+      return <ColorPalette />;
     default:
       return (
         <div className="flex flex-col items-center justify-center h-screen p-6 bg-gray-50">
