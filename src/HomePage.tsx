@@ -56,6 +56,12 @@ const HomePage = () => {
       name: "Watermark",
       description: "Add text or image watermarks to protect your photos",
       icon: "assets/watermark.svg"
+    },
+    {
+      id: "color-palette",
+      name: "Color Palette",
+      description: "Generate a color palette from an image",
+      icon: "assets/watermark.svg"
     }
     // Add more tools as needed
   ];
