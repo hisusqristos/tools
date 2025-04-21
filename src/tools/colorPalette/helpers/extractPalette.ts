@@ -35,7 +35,8 @@ function extractPalette(image: HTMLImageElement, quantity = 5): string[] {
 
   const palette: string[] = []
 
-  for (const [hslKey, data] of sorted) {
+  for (const entry of sorted) {
+    const data = entry[1]
     const { h, s, l, count } = data
 
     if (isProbablyBackground({ h, s, l }, count, totalPixels)) continue
