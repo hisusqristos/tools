@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import DragAndDrop from "../../reusable/DragAndDrop";
 import useHandleFile from "../../hooks/useHandleFile";
 import EditorLayout from "../../EditorLayout";
@@ -26,7 +26,7 @@ const ColorPalette = () => {
                         <img src={image.src} alt="ads" className="w-[600px] h-[450px] object-cover rounded-lg" />
                         <canvas ref={originalCanvasRef} className="hidden"></canvas>
                     </div>
-                    <PaletteButtons colors={extractPalette(image)} />
+                    <div className="-mt-1"><PaletteButtons colors={extractPalette(image)} /></div>
                 </div>
             )}
         </EditorLayout>
