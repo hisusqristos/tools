@@ -82,22 +82,22 @@ function applyRGBShift(
   amount: number
 ): void {
   // Normalize amount to a reasonable pixel shift value (0-20 pixels)
-  const shiftPixels = Math.floor((amount / 100) * 20);
-  if (shiftPixels === 0) return;
-  
+  const rawShift = Math.floor((amount / 100) * 20);
+  const shiftPixels = rawShift < 1 ? 0.5 : rawShift;
+
   // Save current context state
   ctx.save();
-  
+
   // Draw Red channel shifted to the right
   ctx.globalCompositeOperation = 'lighter';
   ctx.globalAlpha = 0.7;
   ctx.drawImage(image, shiftPixels, 0);
-  
+
   // Draw Blue channel shifted to the left
   ctx.globalCompositeOperation = 'lighter';
   ctx.globalAlpha = 0.7;
   ctx.drawImage(image, -shiftPixels, 0);
-  
+
   // Restore context state
   ctx.restore();
 }
@@ -208,4 +208,4 @@ function applyBlockDisplacement(
       }
     }
   }
-} 
+}
