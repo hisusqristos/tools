@@ -21,7 +21,7 @@ const useStyles = createUseStyles({
     },
     image: {
         position: 'absolute',
-        objectFit: 'contain',
+        borderRadius: '30px',
         width: ({ imageSize }: { imageSize: { width: number; height: number } }) => `${imageSize.width}px`,
         height: ({ imageSize }: { imageSize: { width: number; height: number } }) => `${imageSize.height}px`,
     },
@@ -33,7 +33,7 @@ const useStyles = createUseStyles({
         position: 'absolute',
         top: 0,
         width: 4,
-        height: '100%',
+        height: ({ imageSize }: { imageSize: { width: number; height: number } }) => `${imageSize.height}px`,
         background: 'whitesmoke',
         cursor: 'ew-resize',
         transform: 'translateX(-50%)',
