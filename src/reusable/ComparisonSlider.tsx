@@ -22,7 +22,7 @@ const useStyles = createUseStyles({
     },
     image: {
         position: 'absolute',
-        borderRadius: '30px',
+        borderRadius: '16px',
         width: ({ imageSize }: { imageSize: { width: number; height: number } }) => `${imageSize.width}px`,
         height: ({ imageSize }: { imageSize: { width: number; height: number } }) => `${imageSize.height}px`,
     },
