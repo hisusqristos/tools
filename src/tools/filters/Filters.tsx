@@ -110,7 +110,7 @@ const Filters = () => {
 
           {/* Intensity slider (only shown when a filter is selected) */}
           {selectedFilter !== 'none' && (
-            <div className="mt-4">
+            <div className="px-12">
               <RangeSlider
                 id="intensity-slider"
                 min={0}
