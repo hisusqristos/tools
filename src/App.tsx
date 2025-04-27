@@ -5,7 +5,7 @@ import Grayscale from "./tools/grayscale/Grayscale";
 import ColorBalance from "./tools/colorBalance";
 import Brightness from "./tools/brightness";
 import Glitch from "./tools/glitch";
-import Filters from "./tools/filters";
+import Filters from "./tools/filters/Filters";
 import Text from "./tools/text";
 import Watermark from "./tools/watermark";
 import ColorPalette from "./tools/colorPalette/ColorPalette";
