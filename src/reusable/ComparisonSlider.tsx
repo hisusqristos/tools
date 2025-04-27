@@ -1,5 +1,6 @@
 import { useRef, useState } from "react"
 import { createUseStyles } from 'react-jss'
+import { dimensionsToFit } from "./drawScaledImage";
 
 type ComparisonProps = {
     originalSrc: string,
@@ -97,26 +98,6 @@ const ComparisonSlider = ({ originalSrc, editedSrc }: ComparisonProps) => {
         </div>
     );
 };
-
-function dimensionsToFit(
-    imgWidth: number,
-    imgHeight: number,
-    containerWidth: number,
-    containerHeight: number,
-) {
-    const imgRatio = imgWidth / imgHeight;
-    const containerRatio = containerWidth / containerHeight;
-
-    if (imgRatio > containerRatio) {
-        const width = containerWidth;
-        const height = containerWidth / imgRatio;
-        return { width, height };
-    } else {
-        const height = containerHeight;
-        const width = containerHeight * imgRatio;
-        return { width, height };
-    }
-}
 
 export default ComparisonSlider;
 
