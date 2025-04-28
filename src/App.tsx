@@ -9,6 +9,7 @@ import Filters from "./tools/filters";
 import Text from "./tools/text";
 import Watermark from "./tools/watermark";
 import ColorPalette from "./tools/colorPalette/ColorPalette";
+import Pixelize from "./tools/pixelize/Pixelize";
 
 import { HashRouter as Router, Routes, Route, useParams, useSearchParams } from "react-router-dom";
 
@@ -34,6 +35,8 @@ const ToolSelector = ({ tool, size }: { tool?: string, size?: number }) => {
       return <Watermark />;
     case "color-palette":
       return <ColorPalette />;
+    case "pixelize":
+      return <Pixelize />;
     default:
       return (
         <div className="flex flex-col items-center justify-center h-screen p-6 bg-gray-50">

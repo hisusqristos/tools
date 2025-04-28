@@ -22,6 +22,15 @@ This document outlines the plan to refactor all tools to use the shared canvas u
 5. ✅ **Filters**: Refactored to use `applyCanvasOperation` and other utilities.
    - `adjustFilters.ts` - Uses `applyCanvasOperation`, `getPixelData` and `putPixelData`
 
+## Pixelize
+
+**Pixelize** applies a pixelation effect to the uploaded image. You can control the pixel size using a slider. Useful for privacy, stylization, or fun effects.
+
+- **How to use:**
+  1. Upload an image.
+  2. Adjust the pixel size slider to increase or decrease the pixelation.
+  3. Download the pixelized image.
+
 ## Pending Refactorings
 
 6. ⬜ **Flip/Rotate**: 

@@ -62,6 +62,12 @@ const HomePage = () => {
       name: "Color Palette",
       description: "Generate a color palette from an image",
       icon: "assets/watermark.svg"
+    },
+    {
+      id: "pixelize",
+      name: "Pixelize",
+      description: "Pixelize your images to make them look more interesting",
+      icon: "assets/watermark.svg"
     }
     // Add more tools as needed
   ];
