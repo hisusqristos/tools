@@ -32,14 +32,14 @@ const Carousel = ({ children, visibleCount, label }: CarouselProps) => {
                         {label}
                     </label>
                 )}
-                {/* Note:
-                    the 5 in grid-cols-5 should not be hardcoded,
-                    instead there should be the dynamic value of visibleCount.
-
-                    This is just a quick ugly solution to a tailwind problem,
-                    be not mad.
-                */}
-                <div className={`grid grid-cols-5 gap-3 flex-1`}>
+                <div
+                    style={{
+                        display: "grid",
+                        gridTemplateColumns: `repeat(${visibleCount}, minmax(0, 1fr))`,
+                        gap: "0.75rem",
+                        flex: "1"
+                    }}
+                >
                     {visibleChildren}
                 </div>
             </div>
