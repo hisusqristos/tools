@@ -5,7 +5,7 @@ import EditorLayout from "../../EditorLayout";
 import RangeSlider from "../../reusable/RangeSlider";
 import Carousel from "../../reusable/Carousel";
 import { adjustFilters, FilterType } from "./adjustFilters";
-import { filterCatalogue } from "./FilterOptions";
+import { filterCatalogue } from "./helpers/FilterOptions";
 
 const Filters = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -13,10 +13,10 @@ const Filters = () => {
 
   const { image, handleUpload, handleDownload: originalHandleDownload } = useHandleFile(canvasRef, previewCanvasRef, 600);
 
-  const adjustmentValues = useRef<{ filterType: FilterType; intensity: number; }>({ filterType: 'none', intensity: 100 });
+  const adjustmentValues = useRef<{ filterType: FilterType; intensity: number; }>({ filterType: 'none', intensity: 50 });
 
   const [selectedFilter, setSelectedFilter] = useState<FilterType>('none');
-  const [intensityValue, setIntensityValue] = useState<number>(100);
+  const [intensityValue, setIntensityValue] = useState<number>(50);
 
   const filterTypes: FilterType[] = [
     'none',
@@ -104,7 +104,7 @@ const Filters = () => {
           {/* Filter options grid */}
           <Carousel visibleCount={5} label="Select Filter">
             {filterTypes.map((filter) =>
-              filterCatalogue(filter, selectedFilter, handleFilterSelect)
+              filterCatalogue(filter, selectedFilter, handleFilterSelect, image)
             )}
           </Carousel>
 
