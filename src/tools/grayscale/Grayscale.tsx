@@ -22,14 +22,10 @@ const Grayscale = () => {
       {!image ? (
         <DragAndDrop onUploadAction={handleUpload} />
       ) : (
-        <div className="w-full max-w-4xl">
+        <div className="flex w-full items-center justify-center">
           <ComparisonSlider 
             originalSrc={image.src} 
             editedSrc={grayscaleSrc!} 
-            dimensions={{ 
-              width: Math.min(800, canvasRef.current!.width), 
-              height: Math.min(600, canvasRef.current!.height) 
-            }} 
           />
         </div>
       )}

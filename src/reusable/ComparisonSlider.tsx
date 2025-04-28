@@ -1,16 +1,18 @@
 import { useRef, useState } from "react"
-import './ComparisonSlider.css';
+import { dimensionsToFit } from "./drawScaledImage";
+import { useStyles } from "./comparisonStyle";
 
 type ComparisonProps = {
     originalSrc: string,
     editedSrc: string,
-    dimensions: { width: number, height: number }
 }
 
-const ComparisonSlider = ({ originalSrc, editedSrc, dimensions }: ComparisonProps) => {
+const ComparisonSlider = ({ originalSrc, editedSrc }: ComparisonProps) => {
     const containerRef = useRef<HTMLDivElement | null>(null);
     const [sliderPos, setSliderPos] = useState(50);
     const [isDragging, setIsDragging] = useState(false);
+    const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
+    const classes = useStyles({ sliderPos, imageSize });
 
     const handleMouseMove = (e: React.MouseEvent) => {
         if (!containerRef.current || !isDragging) return;
@@ -27,26 +29,40 @@ const ComparisonSlider = ({ originalSrc, editedSrc, dimensions }: ComparisonProp
         setIsDragging(false);
     };
 
+    const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
+        const img = e.currentTarget;
+
+        const { width, height } = dimensionsToFit(
+            img.naturalWidth,
+            img.naturalHeight,
+            600, 600);
+
+        setImageSize({ width, height });
+    };
+
     return (
         <div
             ref={containerRef}
-            className="comparison-container"
-            style={{ width: dimensions.width, height: dimensions.height }}
+            className={classes.container}
             onMouseMove={handleMouseMove}
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
         >
             {originalSrc && editedSrc && (
-                <div className="comparison-image-wrapper">
-                    <img src={editedSrc} alt="Edited version on the right side" className="comparison-image" />
-                    <img src={originalSrc} alt="Original version on the left side" className="comparison-image comparison-image-edited" style={{ clipPath: `inset(0 ${100 - sliderPos}% 0 0)` }} />
+                <div className={classes.imageWrapper}>
+                    <img src={editedSrc} onLoad={handleImageLoad} alt="Edited version on the right side" className={classes.image} />
+                    <img
+                        src={originalSrc}
+                        onLoad={handleImageLoad}
+                        alt="Original version on the left side"
+                        className={`${classes.image} ${classes.imageEdited}`}
+                    />
                 </div>
             )}
-            <div className="comparison-slider" style={{ left: `${sliderPos}%` }} />
+            <div className={classes.slider} />
         </div>
     );
 };
-
 
 export default ComparisonSlider;
 
