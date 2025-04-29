@@ -1,35 +1,39 @@
 import { useRef, useState } from "react";
 import DragAndDrop from "../../reusable/DragAndDrop";
 import useHandleFile from "../../hooks/useHandleFile";
-import pixelizeImage  from "./pixelizeImage";
+import pixelizeImage from "./pixelizeImage";
 import EditorLayout from "../../EditorLayout";
 import RangeSlider from "../../reusable/RangeSlider";
 
 const Pixelize = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const { image, handleUpload, handleDownload } = useHandleFile(canvasRef);
+  const previewCanvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  const { image, handleUpload, handleDownload } = useHandleFile(canvasRef, previewCanvasRef, 600);
   const [pixelSize, setPixelSize] = useState(20);
-  const pixelizedSrc = pixelizeImage(image, canvasRef, pixelSize);
+  const pixelizedSrc = pixelizeImage(image, previewCanvasRef, pixelSize);
+  pixelizeImage(image, canvasRef, pixelSize);
 
   return (
-    <EditorLayout 
+    <EditorLayout
       toolIcon="assets/pixelize.svg"
       onDownload={image ? handleDownload : undefined}
       onUpload={handleUpload}
     >
       <canvas ref={canvasRef} className="hidden" />
+      <canvas ref={previewCanvasRef} className="hidden" />
       {!image ? (
         <DragAndDrop onUploadAction={handleUpload} />
       ) : (
         <div className="w-full max-w-4xl flex flex-col gap-4 items-center">
-          <RangeSlider 
-            min={1} 
-            max={50} 
-            value={pixelSize} 
-            onChange={setPixelSize} 
-            label="Pixel Size" 
+          <RangeSlider
+            min={1}
+            max={50}
+            value={pixelSize}
+            onChange={setPixelSize}
+            label="Pixel Size"
           />
-          <img src={pixelizedSrc!} alt="Pixelized" />
+          <img src={pixelizedSrc!} alt="Pixelized" className="rounded-md"/>
         </div>
       )}
     </EditorLayout>

@@ -5,9 +5,6 @@ function pixelizeImage(image: HTMLImageElement | null, canvasRef: React.RefObjec
   const ctx = canvas.getContext("2d");
   if (!ctx) return null;
 
-  canvas.width = image.width;
-  canvas.height = image.height;
-
   ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
   let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
   let pixels = imgData.data;
@@ -52,45 +49,4 @@ function pixelizeImage(image: HTMLImageElement | null, canvasRef: React.RefObjec
   return canvas.toDataURL();
 }
 
-export default pixelizeImage; 
-
-//  More performant but works bad with colored images
-// function pixelizeImage(
-//   image: HTMLImageElement | null,
-//   canvasRef: React.RefObject<HTMLCanvasElement | null>,
-//   pixelSize: number
-// ): string | null {
-//   // Validate inputs
-//   if (!image || pixelSize < 1) return null;
-
-//   const canvas = canvasRef.current;
-//   if (!canvas) return null;
-
-//   const ctx = canvas.getContext("2d");
-//   if (!ctx) return null;
-//   ctx.imageSmoothingEnabled = false
-//   const { width: imgW, height: imgH } = image;
-
-//   // Set canvas to target dimensions
-//   canvas.width = imgW;
-//   canvas.height = imgH;
-
-//   // Compute reduced dimensions
-//   const tinyW = Math.ceil(imgW / pixelSize);
-//   const tinyH = Math.ceil(imgH / pixelSize);
-
-//   // Disable smoothing for hard pixel edges
-//   ctx.imageSmoothingEnabled = false;
-
-//   // Draw the image at tiny resolution
-//   ctx.clearRect(0, 0, imgW, imgH);
-//   ctx.drawImage(image, 0, 0, tinyW, tinyH);
-
-//   // Scale that tiny image back up to full size
-//   ctx.drawImage(canvas, 0, 0, tinyW, tinyH, 0, 0, imgW, imgH);
-
-//   // Return as Data URL
-//   return canvas.toDataURL();
-// }
-
-// export default pixelizeImage;
+export default pixelizeImage;
