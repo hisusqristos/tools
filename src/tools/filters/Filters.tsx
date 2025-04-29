@@ -73,21 +73,16 @@ const Filters = () => {
       onDownload={image ? handleDownload : undefined}
       onUpload={handleUpload}
     >
-      <canvas ref={canvasRef} className="hidden" />
-
       {!image ? (
         <DragAndDrop onUploadAction={handleUpload} />
       ) : (
         <div className="flex flex-col w-full max-w-4xl gap-6">
-          <div className="w-full flex justify-center">
+          <div className={`flex flex-col w-full`} >
             <canvas
               ref={previewCanvasRef}
-              className="max-w-full rounded-lg shadow-md"
-              style={{
-                maxHeight: '600px',
-                objectFit: 'contain'
-              }}
+              className="rounded-lg shadow-md max-w-full max-h-full"
             />
+            <canvas ref={canvasRef} className="hidden"></canvas>
           </div>
           {/* Filter options grid */}
           <Carousel visibleCount={5} label="Select Filter">
