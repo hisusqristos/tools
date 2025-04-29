@@ -1,11 +1,11 @@
 import { useRef, useState, useEffect, useCallback } from "react";
+import { adjustFilters, FilterType, filterTypes } from "./adjustFilters";
 import useHandleFile from "../../hooks/useHandleFile";
 import DragAndDrop from "../../reusable/DragAndDrop";
 import EditorLayout from "../../EditorLayout";
 import RangeSlider from "../../reusable/RangeSlider";
 import Carousel from "../../reusable/Carousel";
-import { adjustFilters, FilterType } from "./adjustFilters";
-import { filterCatalogue } from "./helpers/FilterOptions";
+import FilterCatalogue from "./helpers/FilterCatalogue";
 
 const Filters = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -17,18 +17,6 @@ const Filters = () => {
 
   const [selectedFilter, setSelectedFilter] = useState<FilterType>('none');
   const [intensityValue, setIntensityValue] = useState<number>(50);
-
-  const filterTypes: FilterType[] = [
-    'none',
-    'sepia',
-    'vintage',
-    'noir',
-    'cool',
-    'warm',
-    'faded',
-    'dramatic',
-    'polaroid'
-  ];
 
   const updatePreview = useCallback(() => {
     if (!image || !previewCanvasRef.current) return;
@@ -104,13 +92,13 @@ const Filters = () => {
           {/* Filter options grid */}
           <Carousel visibleCount={5} label="Select Filter">
             {filterTypes.map((filter) =>
-              filterCatalogue(filter, selectedFilter, handleFilterSelect, image)
+              FilterCatalogue(filter, selectedFilter, handleFilterSelect, image)
             )}
           </Carousel>
 
           {/* Intensity slider (only shown when a filter is selected) */}
           {selectedFilter !== 'none' && (
-            <div className="px-12">
+            <div className="px-12 mb-4">
               <RangeSlider
                 id="intensity-slider"
                 min={0}

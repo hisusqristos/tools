@@ -2,7 +2,7 @@ import { FilterType } from "../adjustFilters"
 import { ReactNode } from "react";
 import { previewFilter } from "./previewFilter";
 
-const filterCatalogue = (filter: FilterType, selectedFilter: FilterType, handleFilterSelect: any, image: HTMLImageElement): ReactNode => {
+const FilterCatalogue = (filter: FilterType, selectedFilter: FilterType, handleFilterSelect: any, image: HTMLImageElement): ReactNode => {
     return (
         <button
             key={filter}
@@ -17,9 +17,9 @@ const filterCatalogue = (filter: FilterType, selectedFilter: FilterType, handleF
                     <img src={previewFilter(filter, image)} alt="filter preview" className="h-full w-full object-cover" />
                 </div>
             </div>
-            <span className="text-xs font-medium text-gray-700">{filter}</span>
+            <span className="text-xs font-medium text-gray-700">{filter.charAt(0).toUpperCase() + filter.slice(1)}</span>
         </button>
     );
 };
 
-export { filterCatalogue }
+export default FilterCatalogue

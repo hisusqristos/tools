@@ -1,4 +1,3 @@
-// minchev 70 normal a
 function applySepia(data: Uint8ClampedArray, intensity: number): void {
     for (let i = 0; i < data.length; i += 4) {
         const r = data[i];
@@ -14,7 +13,8 @@ function applySepia(data: Uint8ClampedArray, intensity: number): void {
         data[i + 2] = b * (1 - intensity) + newB * intensity;
     }
 }
-// normal a
+
+
 function applyVintage(data: Uint8ClampedArray, intensity: number): void {
     for (let i = 0; i < data.length; i += 4) {
         const r = data[i];
@@ -34,27 +34,23 @@ function applyVintage(data: Uint8ClampedArray, intensity: number): void {
         data[i + 2] = b * (1 - intensity) + (newB * 0.7 + blendB * 0.3) * intensity;
     }
 }
-// che
+
+
 function applyNoir(data: Uint8ClampedArray, intensity: number): void {
     for (let i = 0; i < data.length; i += 4) {
         const r = data[i];
         const g = data[i + 1];
         const b = data[i + 2];
 
-        let gray = 0.299 * r + 0.587 * g + 0.114 * b;
-
-        if (gray < 128) {
-            gray = gray * (1 - 0.4 * intensity);
-        } else {
-            gray = gray + (255 - gray) * 0.4 * intensity;
-        }
+        const gray = 0.3 * r + 0.59 * g + 0.11 * b;
 
         data[i] = r * (1 - intensity) + gray * intensity;
         data[i + 1] = g * (1 - intensity) + gray * intensity;
         data[i + 2] = b * (1 - intensity) + gray * intensity;
     }
 }
-// normal a
+
+
 function applyCool(data: Uint8ClampedArray, intensity: number): void {
     for (let i = 0; i < data.length; i += 4) {
         const r = data[i];
@@ -70,7 +66,8 @@ function applyCool(data: Uint8ClampedArray, intensity: number): void {
         data[i + 2] = b * (1 - intensity) + newB * intensity;
     }
 }
-// normal a
+
+
 function applyWarm(data: Uint8ClampedArray, intensity: number): void {
     for (let i = 0; i < data.length; i += 4) {
         const r = data[i];
@@ -86,7 +83,45 @@ function applyWarm(data: Uint8ClampedArray, intensity: number): void {
         data[i + 2] = b * (1 - intensity) + newB * intensity;
     }
 }
-// normalot a
+
+
+function applyEmerald(data: Uint8ClampedArray, intensity: number): void {
+    for (let i = 0; i < data.length; i += 4) {
+        const r = data[i];
+        const g = data[i + 1];
+        const b = data[i + 2];
+
+        const newR = r * 0.9 + g * 0.1;
+        const newG = Math.min(255, g * 1.2);
+        const newB = b * 0.6 + g * 0.2;
+
+        data[i] = r * (1 - intensity) + newR * intensity;
+        data[i + 1] = g * (1 - intensity) + newG * intensity;
+        data[i + 2] = b * (1 - intensity) + newB * intensity;
+    }
+}
+
+
+function applyDusk(data: Uint8ClampedArray, intensity: number): void {
+    applyFaded(data, 1)
+
+    for (let i = 0; i < data.length; i += 4) {
+        const r = data[i];
+        const g = data[i + 1];
+        const b = data[i + 2];
+
+        const newR = r * 0.5 + b * 0.1;
+        const newG = g * 0.6 + b * 0.1;
+        const newB = Math.min(255, b * 1.1);
+
+        data[i] = r * (1 - intensity) + newR * intensity;
+        data[i + 1] = g * (1 - intensity) + newG * intensity;
+        data[i + 2] = b * (1 - intensity) + newB * intensity;
+    }
+
+}
+
+
 function applyFaded(data: Uint8ClampedArray, intensity: number): void {
     for (let i = 0; i < data.length; i += 4) {
         const r = data[i];
@@ -107,7 +142,7 @@ function applyFaded(data: Uint8ClampedArray, intensity: number): void {
         data[i + 2] = b * (1 - intensity) + finalB * intensity;
     }
 }
-// sa khanem
+
 function applyDramatic(data: Uint8ClampedArray, intensity: number): void {
     for (let i = 0; i < data.length; i += 4) {
         const r = data[i];
@@ -136,7 +171,8 @@ function applyDramatic(data: Uint8ClampedArray, intensity: number): void {
         data[i + 2] = b * (1 - intensity) + finalB * intensity;
     }
 }
-// che
+
+
 function applyPolaroid(data: Uint8ClampedArray, intensity: number, width?: number, height?: number): void {
     let w = width || Math.sqrt(data.length / 4);
     let h = height || (data.length / 4) / w;
@@ -173,4 +209,5 @@ function applyPolaroid(data: Uint8ClampedArray, intensity: number, width?: numbe
     }
 }
 
-export { applySepia, applyVintage, applyNoir, applyCool, applyWarm, applyFaded, applyDramatic, applyPolaroid }
+
+export { applySepia, applyVintage, applyNoir, applyCool, applyWarm, applyEmerald, applyFaded, applyDusk, applyDramatic, applyPolaroid }

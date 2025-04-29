@@ -1,4 +1,4 @@
-import { applySepia, applyVintage, applyNoir, applyCool, applyWarm, applyFaded, applyDramatic, applyPolaroid } from "../applyFilter";
+import { applySepia, applyVintage, applyNoir, applyCool, applyWarm, applyFaded, applyDramatic, applyPolaroid, applyEmerald, applyDusk } from "../applyFilter";
 import { drawScaledImage } from "../../../reusable/drawScaledImage";
 import { FilterType } from "../adjustFilters";
 
@@ -33,11 +33,17 @@ function previewFilter(filter: FilterType, image: HTMLImageElement): string {
         case "faded":
             applyFaded(data, intensity);
             break;
+        case "emerald":
+            applyEmerald(data, intensity);
+            break;
         case "dramatic":
             applyDramatic(data, intensity);
             break;
         case "polaroid":
             applyPolaroid(data, intensity, canvas.width, canvas.height);
+            break;
+        case "dusk":
+            applyDusk(data, intensity);
             break;
         default:
             return image.src;

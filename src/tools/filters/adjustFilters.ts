@@ -1,4 +1,4 @@
-import { applySepia, applyVintage, applyNoir, applyCool, applyWarm, applyFaded, applyDramatic, applyPolaroid } from "./applyFilter";
+import { applySepia, applyVintage, applyNoir, applyCool, applyWarm, applyFaded, applyDramatic, applyPolaroid, applyEmerald, applyDusk } from "./applyFilter";
 
 /**
  * Apply various filters to an image
@@ -54,6 +54,9 @@ export function adjustFilters(
     case 'warm':
       applyWarm(data, normalizedIntensity);
       break;
+    case 'emerald':
+      applyEmerald(data, normalizedIntensity);
+      break;
     case 'faded':
       applyFaded(data, normalizedIntensity);
       break;
@@ -62,6 +65,9 @@ export function adjustFilters(
       break;
     case 'polaroid':
       applyPolaroid(data, normalizedIntensity);
+      break;
+    case 'dusk':
+      applyDusk(data, normalizedIntensity);
       break;
     default:
       break;
@@ -81,4 +87,18 @@ export type FilterType =
   | 'warm'
   | 'faded'
   | 'dramatic'
-  | 'polaroid';
+  | 'polaroid'
+  | 'emerald'
+  | 'dusk';
+
+export const filterTypes: FilterType[] = [
+  'none',
+  'sepia',
+  'vintage',
+  'noir',
+  'faded',
+  'cool',
+  'warm',
+  'emerald',
+  'dusk',
+];
