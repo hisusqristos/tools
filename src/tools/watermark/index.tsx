@@ -25,6 +25,8 @@ const Watermark = () => {
   // Use the hook for image handling
   const { image, handleUpload, handleDownload: originalHandleDownload } = useHandleFile(canvasRef, previewCanvasRef);
   
+  useIframeResize()
+  
   // Watermark image if uploading one
   const [watermarkImage, setWatermarkImage] = useState<HTMLImageElement | null>(null);
   

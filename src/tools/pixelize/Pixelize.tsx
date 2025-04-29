@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import DragAndDrop from "../../reusable/DragAndDrop";
 import useHandleFile from "../../hooks/useHandleFile";
+import useIframeResize from "../../hooks/useIframeResize";
 import pixelizeImage from "./pixelizeImage";
 import EditorLayout from "../../EditorLayout";
 import RangeSlider from "../../reusable/RangeSlider";
@@ -10,6 +11,9 @@ const Pixelize = () => {
   const previewCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
   const { image, handleUpload, handleDownload } = useHandleFile(canvasRef, previewCanvasRef, 600);
+
+  useIframeResize()
+
   const [pixelSize, setPixelSize] = useState(20);
   const pixelizedSrc = pixelizeImage(image, previewCanvasRef, pixelSize);
   pixelizeImage(image, canvasRef, pixelSize);

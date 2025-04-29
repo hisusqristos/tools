@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import DragAndDrop from "../../reusable/DragAndDrop";
 import useHandleFile from "../../hooks/useHandleFile";
+import useIframeResize from "../../hooks/useIframeResize";
 import { toGrayscale } from "./toGrayscale";
 import ComparisonSlider from "../../reusable/ComparisonSlider";
 import EditorLayout from "../../EditorLayout";
@@ -9,6 +10,9 @@ import EditorLayout from "../../EditorLayout";
 const Grayscale = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const { image, handleUpload, handleDownload } = useHandleFile(canvasRef);
+
+  useIframeResize()
+
   const grayscaleSrc = toGrayscale(image, canvasRef);
 
   return (

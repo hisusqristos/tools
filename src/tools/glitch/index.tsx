@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import useHandleFile from "../../hooks/useHandleFile";
+import useIframeResize from "../../hooks/useIframeResize";
 import DragAndDrop from "../../reusable/DragAndDrop";
 import EditorLayout from "../../EditorLayout";
 import RangeSlider from "../../reusable/RangeSlider";
@@ -13,6 +14,7 @@ const Glitch = () => {
   
   // Use the hook for image handling
   const { image, handleUpload, handleDownload: originalHandleDownload } = useHandleFile(canvasRef);
+  useIframeResize()
   
   // Store adjustment values in refs to avoid rerenders
   const adjustmentValues = useRef({

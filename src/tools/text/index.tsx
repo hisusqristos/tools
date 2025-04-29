@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import useHandleFile from "../../hooks/useHandleFile";
+import useIframeResize from "../../hooks/useIframeResize";
 import DragAndDrop from "../../reusable/DragAndDrop";
 import EditorLayout from "../../EditorLayout";
 import RangeSlider from "../../reusable/RangeSlider";
@@ -20,6 +21,8 @@ const Text = () => {
   
   // Use the hook for image handling
   const { image, handleUpload, handleDownload: originalHandleDownload } = useHandleFile(canvasRef);
+
+  useIframeResize()
   
   // Text input state
   const [textInput, setTextInput] = useState<string>('Add your text here');
