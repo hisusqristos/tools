@@ -78,7 +78,7 @@ const Filters = () => {
       onUpload={handleUpload}
     >
       <div
-        style={{ width: 600, height: 600 }}
+        style={{ width: previewCanvasRef.current?.width, height: previewCanvasRef.current?.height }}
         className={`flex w-full items-center justify-center rounded-2xl ${!image ? "hidden" : "block"}`} >
         <canvas
           ref={previewCanvasRef}
