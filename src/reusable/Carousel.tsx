@@ -18,13 +18,13 @@ const Carousel = ({ children, visibleCount, label }: CarouselProps) => {
     const visibleChildren = children.slice(startIndex, startIndex + visibleCount);
 
     return (
-        <div className="flex justify-center items-center gap-2">
+        <div className="flex justify-center items-center gap-1">
             <button
                 onClick={handlePrev}
                 disabled={startIndex === 0}
-                className="p-3 rounded-md border mt-7 bg-white shadow-md disabled:opacity-50 disabled:bg-gray-50 hover:bg-gray-100"
+                className="p-2 mt-7 disabled:opacity-50 disabled:bg-gray-50"
             >
-                <img className="size-4 text-white" src="assets/chevron-left.svg" alt="left" />
+                <img className="size-7 text-white" src="assets/chevron-left.svg" alt="left" />
             </button>
             <div className="flex flex-col flex-1">
                 {label && (
@@ -46,9 +46,9 @@ const Carousel = ({ children, visibleCount, label }: CarouselProps) => {
             <button
                 onClick={handleNext}
                 disabled={startIndex >= children.length - visibleCount}
-                className="p-3 rounded-md border mt-7 bg-white shadow-md disabled:opacity-50 disabled:bg-gray-50 hover:bg-gray-100"
+                className="p-2 mt-7 disabled:opacity-50 disabled:bg-gray-50"
             >
-                <img className="size-4 text-white" src="assets/chevron-right.svg" alt="right" />
+                <img className="size-7 text-white" src="assets/chevron-right.svg" alt="right" />
             </button>
         </div>
     );
