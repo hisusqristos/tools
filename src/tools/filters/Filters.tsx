@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { adjustFilters, FilterType, filterTypes } from "./adjustFilters";
 import useHandleFile from "../../hooks/useHandleFile";
+import useIframeResize from "../../hooks/useIframeResize";
 import DragAndDrop from "../../reusable/DragAndDrop";
 import EditorLayout from "../../EditorLayout";
 import RangeSlider from "../../reusable/RangeSlider";
@@ -12,6 +13,8 @@ const Filters = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const { image, handleUpload, handleDownload: originalHandleDownload } = useHandleFile(canvasRef, previewCanvasRef, 600);
+
+  useIframeResize()
 
   const adjustmentValues = useRef<{ filterType: FilterType; intensity: number; }>({ filterType: 'none', intensity: 50 });
 
