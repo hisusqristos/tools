@@ -1,8 +1,10 @@
 import { FilterType } from "../adjustFilters"
-import { ReactNode } from "react";
+import { memo } from "react";
 import { previewFilter } from "./previewFilter";
 
-const FilterCatalogue = (filter: FilterType, selectedFilter: FilterType, handleFilterSelect: any, image: HTMLImageElement): ReactNode => {
+type CatalogueProps = { filter: FilterType, selectedFilter: FilterType, handleFilterSelect: any, image: HTMLImageElement };
+
+const FilterCatalogue = ({ filter, selectedFilter, handleFilterSelect, image }: CatalogueProps) => {
     return (
         <button
             key={filter}
@@ -20,4 +22,4 @@ const FilterCatalogue = (filter: FilterType, selectedFilter: FilterType, handleF
     );
 };
 
-export default FilterCatalogue
+export default memo(FilterCatalogue)
