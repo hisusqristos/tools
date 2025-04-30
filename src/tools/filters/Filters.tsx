@@ -6,11 +6,11 @@ import EditorLayout from "../../EditorLayout";
 import RangeSlider from "../../reusable/RangeSlider";
 import Carousel from "../../reusable/Carousel";
 import FilterCatalogue from "./helpers/FilterCatalogue";
+import { drawScaledImage } from "../../reusable/drawScaledImage";
 
 const Filters = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement | null>(null);
-
   const { image, handleUpload, handleDownload: originalHandleDownload } = useHandleFile(canvasRef, previewCanvasRef, 600);
 
   const adjustmentValues = useRef<{ filterType: FilterType; intensity: number; }>({ filterType: 'none', intensity: 50 });
@@ -63,6 +63,7 @@ const Filters = () => {
 
   useEffect(() => {
     if (image && previewCanvasRef.current) {
+      drawScaledImage(previewCanvasRef.current, image, 600)
       updatePreview();
     }
   }, [image, updatePreview]);
@@ -73,23 +74,23 @@ const Filters = () => {
       onDownload={image ? handleDownload : undefined}
       onUpload={handleUpload}
     >
+      <div
+        style={{ width: 600, height: 600 }}
+        className={`flex w-full items-center justify-center rounded-2xl ${!image ? "hidden" : "block"}`} >
+        <canvas
+          ref={previewCanvasRef}
+          className="rounded-lg shadow-md max-w-full max-h-full"
+        />
+        <canvas ref={canvasRef} className="hidden"></canvas>
+      </div>
+
       {!image ? (
         <DragAndDrop onUploadAction={handleUpload} />
       ) : (
         <div className="flex flex-col w-full max-w-4xl gap-6">
-          <div
-            style={{ width: 600, height: 600 }}
-            className={`flex w-full items-center justify-center rounded-2xl ${!image ? "hidden" : "block"}`} >
-            <canvas
-              ref={previewCanvasRef}
-              className="rounded-lg shadow-md max-w-full max-h-full"
-            />
-            <canvas ref={canvasRef} className="hidden"></canvas>
-          </div>
-          {/* Filter options grid */}
           <Carousel visibleCount={5} label="Select Filter">
             {filterTypes.map((filter) =>
-              FilterCatalogue(filter, selectedFilter, handleFilterSelect, image)
+              <FilterCatalogue filter={filter} selectedFilter={selectedFilter} handleFilterSelect={handleFilterSelect} image={image} />
             )}
           </Carousel>
 
