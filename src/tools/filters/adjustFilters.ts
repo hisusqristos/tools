@@ -21,11 +21,6 @@ export function adjustFilters(
   const ctx = canvas.getContext("2d", { willReadFrequently: true });
   if (!ctx) return null;
 
-  if (canvas.width !== image.width || canvas.height !== image.height) {
-    canvas.width = image.width;
-    canvas.height = image.height;
-  }
-
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 

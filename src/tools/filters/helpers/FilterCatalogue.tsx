@@ -12,10 +12,8 @@ const FilterCatalogue = (filter: FilterType, selectedFilter: FilterType, handleF
                 : "border-gray-200 hover:border-gray-300"
                 }`}
         >
-            <div className="w-full aspect-square bg-gray-100 rounded-md mb-2">
-                <div className={"h-full w-full rounded-md object-center overflow-hidden"} >
-                    <img src={previewFilter(filter, image)} alt="filter preview" className="h-full w-full object-cover" />
-                </div>
+            <div className="w-full h-full aspect-square bg-gray-100 rounded-md mb-2 object-center overflow-hidden">
+                <img src={previewFilter(filter, image)} alt="filter preview" className="h-full w-full object-cover" />
             </div>
             <span className="text-xs font-medium text-gray-700">{filter.charAt(0).toUpperCase() + filter.slice(1)}</span>
         </button>

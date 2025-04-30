@@ -77,7 +77,9 @@ const Filters = () => {
         <DragAndDrop onUploadAction={handleUpload} />
       ) : (
         <div className="flex flex-col w-full max-w-4xl gap-6">
-          <div className={`flex flex-col w-full`} >
+          <div
+            style={{ width: 600, height: 600 }}
+            className={`flex w-full items-center justify-center rounded-2xl ${!image ? "hidden" : "block"}`} >
             <canvas
               ref={previewCanvasRef}
               className="rounded-lg shadow-md max-w-full max-h-full"
