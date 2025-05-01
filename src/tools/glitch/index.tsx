@@ -5,17 +5,18 @@ import DragAndDrop from "../../reusable/DragAndDrop";
 import EditorLayout from "../../EditorLayout";
 import RangeSlider from "../../reusable/RangeSlider";
 import { adjustGlitch } from "./adjustGlitch";
+import { BasicButton } from "../../reusable/basicButton";
 
 const Glitch = () => {
   // Canvas for download operations (hidden)
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   // Canvas for preview (visible to user)
   const previewCanvasRef = useRef<HTMLCanvasElement | null>(null);
-  
+
   // Use the hook for image handling
   const { image, handleUpload, handleDownload: originalHandleDownload } = useHandleFile(canvasRef);
   useIframeResize()
-  
+
   // Store adjustment values in refs to avoid rerenders
   const adjustmentValues = useRef({
     rgbShift: 0,
@@ -23,7 +24,7 @@ const Glitch = () => {
     noise: 0,
     blocks: 0
   });
-  
+
   // State is only used for controlled inputs, not for rendering logic
   const [rgbShiftValue, setRgbShiftValue] = useState<number>(0);
   const [scanlinesValue, setScanlinesValue] = useState<number>(0);
@@ -33,9 +34,9 @@ const Glitch = () => {
   // Function to update the preview canvas
   const updatePreview = useCallback(() => {
     if (!image || !previewCanvasRef.current) return;
-    
+
     const { rgbShift, scanlines, noise, blocks } = adjustmentValues.current;
-    
+
     adjustGlitch(
       image,
       previewCanvasRef.current,
@@ -45,26 +46,26 @@ const Glitch = () => {
       blocks
     );
   }, [image]);
-  
+
   // Handlers for slider changes that update without causing rerenders
   const handleRgbShiftChange = useCallback((value: number) => {
     adjustmentValues.current.rgbShift = value;
     setRgbShiftValue(value); // Update state for UI only
     requestAnimationFrame(updatePreview); // Schedule canvas update
   }, [updatePreview]);
-  
+
   const handleScanlinesChange = useCallback((value: number) => {
     adjustmentValues.current.scanlines = value;
     setScanlinesValue(value); // Update state for UI only
     requestAnimationFrame(updatePreview); // Schedule canvas update
   }, [updatePreview]);
-  
+
   const handleNoiseChange = useCallback((value: number) => {
     adjustmentValues.current.noise = value;
     setNoiseValue(value); // Update state for UI only
     requestAnimationFrame(updatePreview); // Schedule canvas update
   }, [updatePreview]);
-  
+
   const handleBlocksChange = useCallback((value: number) => {
     adjustmentValues.current.blocks = value;
     setBlocksValue(value); // Update state for UI only
@@ -74,20 +75,20 @@ const Glitch = () => {
   // Create a custom download handler that applies adjustments before download
   const handleDownload = useCallback(() => {
     if (!image || !canvasRef.current) return;
-    
+
     const { rgbShift, scanlines, noise, blocks } = adjustmentValues.current;
 
     // Apply current adjustments to the download canvas
     adjustGlitch(
-      image, 
-      canvasRef.current, 
+      image,
+      canvasRef.current,
       rgbShift,
       scanlines,
       noise,
       blocks,
       true
     );
-    
+
     // Use the original download function from the hook
     originalHandleDownload();
   }, [image, originalHandleDownload]);
@@ -112,19 +113,19 @@ const Glitch = () => {
     const randomScanlines = Math.floor(Math.random() * 70);
     const randomNoise = Math.floor(Math.random() * 60);
     const randomBlocks = Math.floor(Math.random() * 50);
-    
+
     adjustmentValues.current = {
       rgbShift: randomRgb,
       scanlines: randomScanlines,
       noise: randomNoise,
       blocks: randomBlocks
     };
-    
+
     setRgbShiftValue(randomRgb);
     setScanlinesValue(randomScanlines);
     setNoiseValue(randomNoise);
     setBlocksValue(randomBlocks);
-    
+
     requestAnimationFrame(updatePreview);
   }, [updatePreview]);
 
@@ -134,7 +135,7 @@ const Glitch = () => {
       updatePreview();
     }
   }, [image, updatePreview]);
-  
+
   return (
     <EditorLayout
       toolIcon="assets/glitch.svg"
@@ -143,7 +144,7 @@ const Glitch = () => {
     >
       {/* Hidden canvas used by useHandleFile hook for export */}
       <canvas ref={canvasRef} className="hidden" />
-      
+
       {!image ? (
         <DragAndDrop onUploadAction={handleUpload} />
       ) : (
@@ -165,7 +166,7 @@ const Glitch = () => {
                   showTooltip={true}
                 />
               </div>
-              
+
               {/* Scanlines Slider */}
               <div className="flex-1">
                 <RangeSlider
@@ -180,7 +181,7 @@ const Glitch = () => {
                 />
               </div>
             </div>
-            
+
             {/* Second row of sliders */}
             <div className="flex items-center gap-4">
               {/* Noise Slider */}
@@ -196,7 +197,7 @@ const Glitch = () => {
                   showTooltip={true}
                 />
               </div>
-              
+
               {/* Blocks Slider */}
               <div className="flex-1">
                 <RangeSlider
@@ -210,29 +211,18 @@ const Glitch = () => {
                   showTooltip={true}
                 />
               </div>
-              
+
               {/* Action buttons */}
               <div className="flex gap-2">
-                <button
-                  onClick={handleRandomGlitch}
-                  className="px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
-                >
-                  Random
-                </button>
-                
-                <button
-                  onClick={handleReset}
-                  className="px-4 py-2 text-sm font-medium text-white bg-gray-600 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-                >
-                  Reset
-                </button>
+                <BasicButton label={"Random"} color={'purple'} handleClick={handleRandomGlitch} />
+                <BasicButton label={"Reset"} color={'gray'} handleClick={handleReset} />
               </div>
             </div>
           </div>
 
           {/* Preview canvas - visible to user */}
           <div className="w-full flex justify-center">
-            <canvas 
+            <canvas
               ref={previewCanvasRef}
               className="max-w-full rounded-lg shadow-md"
               style={{
