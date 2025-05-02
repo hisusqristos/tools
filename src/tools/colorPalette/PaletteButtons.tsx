@@ -1,29 +1,36 @@
+import { useState } from 'react'
+import { PaletteStyles } from "./paletteStyles";
+import PaletteButton from './PaletteButton';
+import createRipple from "./helpers/createRipple"
+
 const PaletteButtons = ({ colors }: { colors: string[] }) => {
-    const buttons = colors.map((color, index) => {
-        const isFirst = index === 0
-        const isLast = index === colors.length - 1
+    const [visibleIconIndex, setVisibleIconIndex] = useState<number | null>(null)
+    const classes = PaletteStyles()
 
-        const cornerClass = `
-            ${isFirst ? 'rounded-bl-lg' : ''}
-            ${isLast ? 'rounded-br-lg' : ''}
-        `
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>, index: number, color: string) => {
+        createRipple(e.currentTarget, classes.ripple)
 
-        return (
-            <button
-                key={index}
-                className={`w-[120px] h-[100px] relative group transition-transform overflow-hidden ${cornerClass}`}
-                style={{ backgroundColor: color }}
-                title={color}
-                onClick={() => navigator.clipboard.writeText(color)}
-            >
-                <span className="absolute -inset-[1px] flex font-sans font-semibold items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-white text-sm bg-black/15 rounded">
-                    COPY
-                </span>
-            </button>
-        )
-    })
+        setVisibleIconIndex(index)
+        setTimeout(() => setVisibleIconIndex(null), 600)
 
-    return <div className="flex overflow-hidden rounded-b-lg">{buttons}</div>
+        navigator.clipboard.writeText(color)
+    }
+
+    return (
+        <div className={classes.container}>
+            {colors.map((color, index) => (
+                <PaletteButton
+                    key={index}
+                    color={color}
+                    index={index}
+                    isFirst={index === 0}
+                    isLast={index === colors.length - 1}
+                    isLabelVisible={visibleIconIndex === index}
+                    onClick={handleClick}
+                />
+            ))}
+        </div>
+    )
 }
 
 export default PaletteButtons
