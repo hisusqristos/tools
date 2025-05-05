@@ -5,21 +5,22 @@ import DragAndDrop from "../../reusable/DragAndDrop";
 import EditorLayout from "../../EditorLayout";
 import RangeSlider from "../../reusable/RangeSlider";
 import { adjustBrightness } from "./adjustBrightness";
+import { BasicButton } from "../../reusable/basicButton";
 
 const Brightness = () => {
   // Canvas for download operations (hidden)
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   // Canvas for preview (visible to user)
   const previewCanvasRef = useRef<HTMLCanvasElement | null>(null);
-  
+
   // Use the hook for image handling
   const { image, handleUpload, handleDownload: originalHandleDownload } = useHandleFile(canvasRef);
 
   useIframeResize()
-  
+
   // Store adjustment values in refs to avoid rerenders
   const adjustmentValues = useRef({ brightness: 0, contrast: 0 });
-  
+
   // State is only used for controlled inputs, not for rendering logic
   const [brightnessValue, setBrightnessValue] = useState<number>(0);
   const [contrastValue, setContrastValue] = useState<number>(0);
@@ -27,9 +28,9 @@ const Brightness = () => {
   // Function to update the preview canvas
   const updatePreview = useCallback(() => {
     if (!image || !previewCanvasRef.current) return;
-    
+
     const { brightness, contrast } = adjustmentValues.current;
-    
+
     adjustBrightness(
       image,
       previewCanvasRef.current,
@@ -37,14 +38,14 @@ const Brightness = () => {
       contrast
     );
   }, [image]);
-  
+
   // Handlers for slider changes that update without causing rerenders
   const handleBrightnessChange = useCallback((value: number) => {
     adjustmentValues.current.brightness = value;
     setBrightnessValue(value); // Update state for UI only
     requestAnimationFrame(updatePreview); // Schedule canvas update
   }, [updatePreview]);
-  
+
   const handleContrastChange = useCallback((value: number) => {
     adjustmentValues.current.contrast = value;
     setContrastValue(value); // Update state for UI only
@@ -54,18 +55,18 @@ const Brightness = () => {
   // Create a custom download handler that applies adjustments before download
   const handleDownload = useCallback(() => {
     if (!image || !canvasRef.current) return;
-    
+
     const { brightness, contrast } = adjustmentValues.current;
 
     // Apply current adjustments to the download canvas
     adjustBrightness(
-      image, 
-      canvasRef.current, 
+      image,
+      canvasRef.current,
       brightness,
-      contrast, 
+      contrast,
       true
     );
-    
+
     // Use the original download function from the hook
     originalHandleDownload();
   }, [image, originalHandleDownload]);
@@ -83,7 +84,7 @@ const Brightness = () => {
       updatePreview();
     }
   }, [image, updatePreview]);
-  
+
   return (
     <EditorLayout
       toolIcon="assets/brightness-contrast.svg"
@@ -92,7 +93,7 @@ const Brightness = () => {
     >
       {/* Hidden canvas used by useHandleFile hook for export */}
       <canvas ref={canvasRef} className="hidden" />
-      
+
       {!image ? (
         <DragAndDrop onUploadAction={handleUpload} />
       ) : (
@@ -112,7 +113,7 @@ const Brightness = () => {
                   showTooltip={true}
                 />
               </div>
-              
+
               {/* Contrast Slider */}
               <div className="flex-1">
                 <RangeSlider
@@ -125,20 +126,15 @@ const Brightness = () => {
                   showTooltip={true}
                 />
               </div>
-              
+
               {/* Reset Button */}
-              <button
-                onClick={handleReset}
-                className="px-4 py-2 text-sm font-medium text-white bg-gray-600 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-              >
-                Reset
-              </button>
+              <BasicButton label={"Reset"} color={'gray'} handleClick={handleReset} />
             </div>
           </div>
 
           {/* Preview canvas - visible to user */}
           <div className="w-full flex justify-center">
-            <canvas 
+            <canvas
               ref={previewCanvasRef}
               className="max-w-full rounded-lg shadow-md"
               style={{
