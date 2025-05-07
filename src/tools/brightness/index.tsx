@@ -5,7 +5,7 @@ import DragAndDrop from "../../reusable/DragAndDrop";
 import EditorLayout from "../../EditorLayout";
 import RangeSlider from "../../reusable/RangeSlider";
 import { adjustBrightness } from "./adjustBrightness";
-import { BasicButton } from "../../reusable/basicButton";
+import BasicButton from "../../reusable/BasicButton";
 
 const Brightness = () => {
   // Canvas for download operations (hidden)
@@ -85,6 +85,11 @@ const Brightness = () => {
     }
   }, [image, updatePreview]);
 
+  const sliders = [
+    { id: "brightness-slider", label: "Brightness", min: -100, max: 100, value: brightnessValue, onChange: handleBrightnessChange, color: "purple", },
+    { id: "contrast-slider", label: "Contrast", min: -100, max: 100, value: contrastValue, onChange: handleContrastChange, color: "gray", },
+  ];
+
   return (
     <EditorLayout
       toolIcon="assets/brightness-contrast.svg"
@@ -101,31 +106,20 @@ const Brightness = () => {
           {/* Controls section - horizontal layout */}
           <div className="p-4 bg-white rounded-lg shadow-sm">
             <div className="flex items-center gap-4">
-              {/* Brightness Slider */}
-              <div className="flex-1">
-                <RangeSlider
-                  id="brightness-slider"
-                  min={-100}
-                  max={100}
-                  value={brightnessValue}
-                  onChange={handleBrightnessChange}
-                  color="purple"
-                  showTooltip={true}
-                />
-              </div>
-
-              {/* Contrast Slider */}
-              <div className="flex-1">
-                <RangeSlider
-                  id="contrast-slider"
-                  min={-100}
-                  max={100}
-                  value={contrastValue}
-                  onChange={handleContrastChange}
-                  color="gray"
-                  showTooltip={true}
-                />
-              </div>
+              {sliders.map(({ id, label, min, max, value, onChange, color }) => (
+                <div key={id} className="flex-1 min-w-[200px]">
+                  <RangeSlider
+                    id={id}
+                    min={min}
+                    max={max}
+                    value={value}
+                    onChange={onChange}
+                    color={color}
+                    label={label}
+                    showTooltip={true}
+                  />
+                </div>
+              ))}
 
               {/* Reset Button */}
               <BasicButton label={"Reset"} color={'gray'} handleClick={handleReset} />

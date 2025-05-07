@@ -1,11 +1,11 @@
 import { useRef, useState, useEffect, useCallback } from "react";
+import { adjustColorBalance } from "./adjustColorBalance";
 import useHandleFile from "../../hooks/useHandleFile";
 import useIframeResize from "../../hooks/useIframeResize";
 import DragAndDrop from "../../reusable/DragAndDrop";
 import EditorLayout from "../../EditorLayout";
 import RangeSlider from "../../reusable/RangeSlider";
-import { adjustColorBalance } from "./adjustColorBalance";
-import { BasicButton } from "../../reusable/basicButton";
+import BasicButton from "../../reusable/BasicButton";
 
 const ColorBalance = () => {
   // Canvas for download operations (hidden)
@@ -95,6 +95,12 @@ const ColorBalance = () => {
     }
   }, [image, updatePreview]);
 
+  const sliders = [
+    { id: 'red-slider', color: 'red', value: redValue, onChange: handleRedChange },
+    { id: 'green-slider', color: 'green', value: greenValue, onChange: handleGreenChange },
+    { id: 'blue-slider', color: 'blue', value: blueValue, onChange: handleBlueChange },
+  ];
+
   return (
     <EditorLayout
       toolIcon="assets/color-balance.svg"
@@ -110,44 +116,20 @@ const ColorBalance = () => {
         <div className="flex flex-col w-full max-w-4xl gap-6">
           {/* Controls section - horizontal layout */}
           <div className="flex items-center gap-4">
-            {/* Red Slider - 1/3 width */}
-            <div className="flex-1">
-              <RangeSlider
-                id="red-slider"
-                min={-100}
-                max={100}
-                value={redValue}
-                onChange={handleRedChange}
-                color="red"
-                showTooltip={true}
-              />
-            </div>
-
-            {/* Green Slider - 1/3 width */}
-            <div className="flex-1">
-              <RangeSlider
-                id="green-slider"
-                min={-100}
-                max={100}
-                value={greenValue}
-                onChange={handleGreenChange}
-                color="green"
-                showTooltip={true}
-              />
-            </div>
-
-            {/* Blue Slider - 1/3 width */}
-            <div className="flex-1">
-              <RangeSlider
-                id="blue-slider"
-                min={-100}
-                max={100}
-                value={blueValue}
-                onChange={handleBlueChange}
-                color="blue"
-                showTooltip={true}
-              />
-            </div>
+            {/* Range silders */}
+            {sliders.map(({ id, color, value, onChange }) => (
+              <div key={id} className="flex-1">
+                <RangeSlider
+                  id={id}
+                  min={-100}
+                  max={100}
+                  value={value}
+                  onChange={onChange}
+                  color={color}
+                  showTooltip={true}
+                />
+              </div>
+            ))}
 
             <BasicButton label={"Reset"} color={'gray'} handleClick={handleReset} />
           </div>
