@@ -11,4 +11,4 @@ const createRipple = (button: HTMLButtonElement, rippleClass: string) => {
     ripple.addEventListener('animationend', () => ripple.remove())
 }
 
-export default createRipple
+export default createRipple;

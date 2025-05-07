@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 const THEMES = {
     green: {
         text: 'text-green-800',
@@ -38,4 +40,4 @@ const BasicButton = ({ label, color, handleClick }: { label: string, color: keyo
     );
 };
 
-export { BasicButton }
+export default memo(BasicButton) 

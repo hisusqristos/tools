@@ -4,6 +4,7 @@ import DragAndDrop from "../../reusable/DragAndDrop";
 import EditorLayout from "../../EditorLayout";
 import RangeSlider from "../../reusable/RangeSlider";
 import useIframeResize from "../../hooks/useIframeResize";
+import BasicButton from "../../reusable/BasicButton";
 
 import {
   adjustWatermark,
@@ -15,7 +16,6 @@ import {
   fontStyleOptions,
   defaultWatermarkOptions
 } from "./adjustWatermark";
-import { BasicButton } from "../../reusable/basicButton";
 
 const Watermark = () => {
   // Canvas for download operations (hidden)

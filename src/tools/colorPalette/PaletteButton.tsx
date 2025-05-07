@@ -1,4 +1,5 @@
-import { PaletteButtonStyles } from "./paletteStyles";
+import { memo } from "react";
+import { PaletteButtonStyles as useStyles } from "./paletteStyles";
 
 type PaletteButtonProps = {
     color: string
@@ -10,11 +11,10 @@ type PaletteButtonProps = {
 };
 
 const PaletteButton = ({ color, index, isFirst, isLast, isLabelVisible, onClick }: PaletteButtonProps) => {
-    const classes = PaletteButtonStyles({ color })
+    const classes = useStyles({ color })
 
     return (
         <button
-            key={index}
             className={`${classes.button} ${isFirst ? classes.first : ''} ${isLast ? classes.last : ''}`}
             title={color}
             onClick={(e) => onClick(e, index, color)}
@@ -26,4 +26,4 @@ const PaletteButton = ({ color, index, isFirst, isLast, isLabelVisible, onClick 
     )
 }
 
-export default PaletteButton;
+export default memo(PaletteButton);

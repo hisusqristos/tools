@@ -1,11 +1,11 @@
 import { useRef, useState, useEffect, useCallback } from "react";
+import { adjustGlitch } from "./adjustGlitch";
 import useHandleFile from "../../hooks/useHandleFile";
 import useIframeResize from "../../hooks/useIframeResize";
 import DragAndDrop from "../../reusable/DragAndDrop";
 import EditorLayout from "../../EditorLayout";
 import RangeSlider from "../../reusable/RangeSlider";
-import { adjustGlitch } from "./adjustGlitch";
-import { BasicButton } from "../../reusable/basicButton";
+import BasicButton from "../../reusable/BasicButton";
 
 const Glitch = () => {
   // Canvas for download operations (hidden)
@@ -136,6 +136,13 @@ const Glitch = () => {
     }
   }, [image, updatePreview]);
 
+  const sliders = [
+    { id: "rgb-shift-slider", label: "RGB Shift", value: rgbShiftValue, onChange: handleRgbShiftChange, color: "red", },
+    { id: "scanlines-slider", label: "Scanlines", value: scanlinesValue, onChange: handleScanlinesChange, color: "blue", },
+    { id: "noise-slider", label: "Noise", value: noiseValue, onChange: handleNoiseChange, color: "green", },
+    { id: "blocks-slider", label: "Block Glitch", value: blocksValue, onChange: handleBlocksChange, color: "purple", },
+  ];
+
   return (
     <EditorLayout
       toolIcon="assets/glitch.svg"
@@ -153,64 +160,21 @@ const Glitch = () => {
           <div className="p-4 bg-white rounded-lg shadow-sm">
             {/* First row of sliders */}
             <div className="flex items-center gap-4 mb-4">
-              {/* RGB Shift Slider */}
-              <div className="flex-1">
-                <RangeSlider
-                  id="rgb-shift-slider"
-                  min={0}
-                  max={100}
-                  value={rgbShiftValue}
-                  onChange={handleRgbShiftChange}
-                  color="red"
-                  label="RGB Shift"
-                  showTooltip={true}
-                />
-              </div>
 
-              {/* Scanlines Slider */}
-              <div className="flex-1">
-                <RangeSlider
-                  id="scanlines-slider"
-                  min={0}
-                  max={100}
-                  value={scanlinesValue}
-                  onChange={handleScanlinesChange}
-                  color="blue"
-                  label="Scanlines"
-                  showTooltip={true}
-                />
-              </div>
-            </div>
-
-            {/* Second row of sliders */}
-            <div className="flex items-center gap-4">
-              {/* Noise Slider */}
-              <div className="flex-1">
-                <RangeSlider
-                  id="noise-slider"
-                  min={0}
-                  max={100}
-                  value={noiseValue}
-                  onChange={handleNoiseChange}
-                  color="green"
-                  label="Noise"
-                  showTooltip={true}
-                />
-              </div>
-
-              {/* Blocks Slider */}
-              <div className="flex-1">
-                <RangeSlider
-                  id="blocks-slider"
-                  min={0}
-                  max={100}
-                  value={blocksValue}
-                  onChange={handleBlocksChange}
-                  color="purple"
-                  label="Block Glitch"
-                  showTooltip={true}
-                />
-              </div>
+              {sliders.map(({ id, label, value, onChange, color }) => (
+                <div key={id} className="flex-1 min-w-[200px]">
+                  <RangeSlider
+                    id={id}
+                    min={0}
+                    max={100}
+                    value={value}
+                    onChange={onChange}
+                    color={color}
+                    label={label}
+                    showTooltip={true}
+                  />
+                </div>
+              ))}
 
               {/* Action buttons */}
               <div className="flex gap-2">
