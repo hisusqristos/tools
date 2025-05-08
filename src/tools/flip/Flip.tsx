@@ -6,7 +6,7 @@ import FlipControls from "./FlipControls";
 import EditorLayout from "../../EditorLayout";
 import useIframeResize from "../../hooks/useIframeResize";
 
-const Flip = ({ maxCanvasSize }: { maxCanvasSize?: number }) => {
+const Flip = ({ maxCanvasSize = 600 }: { maxCanvasSize?: number }) => {
   const originalCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const { image, handleUpload, handleDownload } = useHandleFile(originalCanvasRef, previewCanvasRef, maxCanvasSize);

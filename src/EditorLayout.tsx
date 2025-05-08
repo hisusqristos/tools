@@ -16,7 +16,7 @@ const EditorLayout: React.FC<EditorLayoutProps> = ({
   onUpload
 }) => {
   return (
-    <div className="flex flex-col items-center justify-center gap-3 min-h-screen bg-gray-50">
+    <div className="flex flex-col items-center justify-center gap-3 min-h-screen">
       <div id="editor" className="flex flex-col gap-3 w-full max-w-xl mx-auto">
         <main className="flex flex-col items-center gap-5">
           {children}

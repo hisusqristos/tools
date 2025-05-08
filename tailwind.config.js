@@ -7,13 +7,19 @@ module.exports = {
     extend: {
       colors: {
         purple: {
-          500: '#7F56D9',
+          200: '#DCD1FA',
+          300: '#CABAF7',
+          500: '#916FF2',
           600: '#7F56D9',
           700: '#6941C6',
         },
         beige : {
           200 :'#f2f2f2',
-        300: '#ededed'}
+          300: '#ededed'
+        },
+        grey : {
+          500 : "#666666"
+        }
       },
       fontFamily: {
         sans: ['Poppins', 'sans-serif'],

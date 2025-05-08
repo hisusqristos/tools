@@ -4,44 +4,37 @@ import useIframeResize from "../../hooks/useIframeResize";
 import DragAndDrop from "../../reusable/DragAndDrop";
 import EditorLayout from "../../EditorLayout";
 import RangeSlider from "../../reusable/RangeSlider";
-import { 
-  adjustText, 
-  TextOptions, 
-  TextAlign, 
-  fontOptions, 
-  fontStyleOptions,
-  defaultTextOptions 
-} from "./adjustText";
+import { adjustText, TextOptions, TextAlign, fontOptions, fontStyleOptions, defaultTextOptions } from "./adjustText";
 
 const Text = () => {
   // Canvas for download operations (hidden)
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   // Canvas for preview (visible to user)
   const previewCanvasRef = useRef<HTMLCanvasElement | null>(null);
-  
+
   // Use the hook for image handling
   const { image, handleUpload, handleDownload: originalHandleDownload } = useHandleFile(canvasRef);
 
   useIframeResize()
-  
+
   // Text input state
   const [textInput, setTextInput] = useState<string>('Add your text here');
-  
+
   // Text styling options
   const [textOptions, setTextOptions] = useState<TextOptions>(defaultTextOptions);
-  
+
   // Store the actual values in a ref to avoid rerenders
   const textValuesRef = useRef({
     text: textInput,
     options: textOptions
   });
-  
+
   // Function to update the preview canvas
   const updatePreview = useCallback(() => {
     if (!image || !previewCanvasRef.current) return;
-    
+
     const { text, options } = textValuesRef.current;
-    
+
     adjustText(
       image,
       previewCanvasRef.current,
@@ -49,7 +42,7 @@ const Text = () => {
       options
     );
   }, [image]);
-  
+
   // Text input change handler
   const handleTextInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const newText = e.target.value;
@@ -57,32 +50,32 @@ const Text = () => {
     setTextInput(newText);
     requestAnimationFrame(updatePreview);
   }, [updatePreview]);
-  
+
   // Generic handler for updating text options
   const updateTextOption = useCallback(<K extends keyof TextOptions>(
-    key: K, 
+    key: K,
     value: TextOptions[K]
   ) => {
     textValuesRef.current.options = {
       ...textValuesRef.current.options,
       [key]: value
     };
-    
+
     setTextOptions(prev => ({
       ...prev,
       [key]: value
     }));
-    
+
     requestAnimationFrame(updatePreview);
   }, [updatePreview]);
-  
+
   // Position update handler (for x and y sliders)
   const updatePosition = useCallback((axis: 'x' | 'y', value: number) => {
     textValuesRef.current.options.position = {
       ...textValuesRef.current.options.position,
       [axis]: value
     };
-    
+
     setTextOptions(prev => ({
       ...prev,
       position: {
@@ -90,17 +83,17 @@ const Text = () => {
         [axis]: value
       }
     }));
-    
+
     requestAnimationFrame(updatePreview);
   }, [updatePreview]);
-  
+
   // Effect update handler (for shadow and outline checkboxes)
   const updateEffect = useCallback((effect: keyof TextOptions['effects'], value: boolean | string | number) => {
     textValuesRef.current.options.effects = {
       ...textValuesRef.current.options.effects,
       [effect]: value
     };
-    
+
     setTextOptions(prev => ({
       ...prev,
       effects: {
@@ -108,25 +101,25 @@ const Text = () => {
         [effect]: value
       }
     }));
-    
+
     requestAnimationFrame(updatePreview);
   }, [updatePreview]);
 
   // Create a custom download handler that applies text overlay before download
   const handleDownload = useCallback(() => {
     if (!image || !canvasRef.current) return;
-    
+
     const { text, options } = textValuesRef.current;
 
     // Apply text overlay to the download canvas
     adjustText(
-      image, 
-      canvasRef.current, 
+      image,
+      canvasRef.current,
       text,
       options,
       true
     );
-    
+
     // Use the original download function from the hook
     originalHandleDownload();
   }, [image, originalHandleDownload]);
@@ -137,7 +130,12 @@ const Text = () => {
       updatePreview();
     }
   }, [image, updatePreview]);
-  
+
+  const positionSliders: { id: string; label: string; axis: "x" | "y"; value: number; }[] = [
+    { id: "horizontal-position-slider", label: "Horizontal Position", axis: "x", value: textOptions.position.x, },
+    { id: "vertical-position-slider", label: "Vertical Position", axis: "y", value: textOptions.position.y, },
+  ];
+
   return (
     <EditorLayout
       toolIcon="assets/text.svg"
@@ -146,7 +144,7 @@ const Text = () => {
     >
       {/* Hidden canvas used by useHandleFile hook for export */}
       <canvas ref={canvasRef} className="hidden" />
-      
+
       {!image ? (
         <DragAndDrop onUploadAction={handleUpload} />
       ) : (
@@ -167,7 +165,7 @@ const Text = () => {
                 placeholder="Enter your text here"
               />
             </div>
-            
+
             {/* Font controls row */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
               {/* Font family */}
@@ -188,7 +186,7 @@ const Text = () => {
                   ))}
                 </select>
               </div>
-              
+
               {/* Font style */}
               <div>
                 <label htmlFor="font-style" className="block text-sm font-medium text-gray-700 mb-1">
@@ -207,7 +205,7 @@ const Text = () => {
                   ))}
                 </select>
               </div>
-              
+
               {/* Font size */}
               <div>
                 <label htmlFor="font-size" className="block text-sm font-medium text-gray-700 mb-1">
@@ -234,7 +232,7 @@ const Text = () => {
                 </div>
               </div>
             </div>
-            
+
             {/* Text alignment and color */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               {/* Text alignment */}
@@ -246,11 +244,10 @@ const Text = () => {
                   {(['left', 'center', 'right'] as TextAlign[]).map((align) => (
                     <button
                       key={align}
-                      className={`flex-1 py-2 px-3 focus:outline-none ${
-                        textOptions.textAlign === align 
-                          ? 'bg-purple-100 text-purple-700' 
-                          : 'bg-white text-gray-700 hover:bg-gray-50'
-                      }`}
+                      className={`flex-1 py-2 px-3 focus:outline-none ${textOptions.textAlign === align
+                        ? 'bg-purple-100 text-purple-700'
+                        : 'bg-white text-gray-700 hover:bg-gray-50'
+                        }`}
                       onClick={() => updateTextOption('textAlign', align)}
                     >
                       {align.charAt(0).toUpperCase() + align.slice(1)}
@@ -258,7 +255,7 @@ const Text = () => {
                   ))}
                 </div>
               </div>
-              
+
               {/* Text color */}
               <div>
                 <label htmlFor="text-color" className="block text-sm font-medium text-gray-700 mb-1">
@@ -283,7 +280,7 @@ const Text = () => {
                 </div>
               </div>
             </div>
-            
+
             {/* Text effects */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               {/* Shadow effect */}
@@ -299,7 +296,7 @@ const Text = () => {
                   Text Shadow
                 </label>
               </div>
-              
+
               {/* Outline effect */}
               <div className="flex items-center">
                 <input
@@ -312,7 +309,7 @@ const Text = () => {
                 <label htmlFor="outline-effect" className="ml-2 text-sm font-medium text-gray-700">
                   Text Outline
                 </label>
-                
+
                 {textOptions.effects.outline && (
                   <input
                     type="color"
@@ -322,7 +319,7 @@ const Text = () => {
                   />
                 )}
               </div>
-              
+
               {/* Highlight effect */}
               <div className="flex items-center">
                 <input
@@ -335,7 +332,7 @@ const Text = () => {
                 <label htmlFor="highlight-effect" className="ml-2 text-sm font-medium text-gray-700">
                   Text Highlight
                 </label>
-                
+
                 {textOptions.effects.highlight && (
                   <input
                     type="color"
@@ -346,40 +343,29 @@ const Text = () => {
                 )}
               </div>
             </div>
-            
+
             {/* Text position */}
-            <div className="mb-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Horizontal Position
-              </label>
-              <RangeSlider
-                min={0}
-                max={100}
-                value={textOptions.position.x}
-                onChange={(value) => updatePosition('x', value)}
-                color="purple"
-                showTooltip={true}
-              />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Vertical Position
-              </label>
-              <RangeSlider
-                min={0}
-                max={100}
-                value={textOptions.position.y}
-                onChange={(value) => updatePosition('y', value)}
-                color="purple"
-                showTooltip={true}
-              />
+            <div className="flex gap-4">
+              {positionSliders.map(({ id, label, axis, value }) => (
+                <div key={id} className="flex-1 min-w-[200px]">
+                  <RangeSlider
+                    id={id}
+                    min={0}
+                    max={100}
+                    value={value}
+                    onChange={(val) => updatePosition(axis, val)}
+                    color="purple"
+                    label={label}
+                    showTooltip={true}
+                  />
+                </div>
+              ))}
             </div>
           </div>
 
           {/* Preview canvas - visible to user */}
           <div className="w-full flex justify-center">
-            <canvas 
+            <canvas
               ref={previewCanvasRef}
               className="max-w-full rounded-lg shadow-md"
               style={{
