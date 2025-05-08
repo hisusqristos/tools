@@ -1,11 +1,11 @@
-import React from "react";
+import  { FC, memo } from "react";
 
 interface DownloadButtonProps {
   downloadAction?: () => void;
   disabled?: boolean;
 }
 
-const DownloadButton: React.FC<DownloadButtonProps> = ({
+const DownloadButton: FC<DownloadButtonProps> = ({
   downloadAction,
   disabled = false
 }) => {
@@ -21,4 +21,4 @@ const DownloadButton: React.FC<DownloadButtonProps> = ({
   );
 };
 
-export default DownloadButton;
+export default memo(DownloadButton);

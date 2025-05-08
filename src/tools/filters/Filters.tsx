@@ -12,7 +12,7 @@ import { drawScaledImage } from "../../reusable/drawScaledImage";
 const Filters = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement | null>(null);
-  const { image, handleUpload, handleDownload: originalHandleDownload } = useHandleFile(canvasRef, previewCanvasRef, 600);
+  const { image, handleUpload, handleDownload: originalHandleDownload, goToEditor } = useHandleFile(canvasRef, previewCanvasRef, 600);
 
   useIframeResize()
 
@@ -76,6 +76,7 @@ const Filters = () => {
       toolIcon="assets/filters.svg"
       onDownload={image ? handleDownload : undefined}
       onUpload={handleUpload}
+      goToEditor={goToEditor}
     >
       <div
         style={{ width: previewCanvasRef.current?.width, height: previewCanvasRef.current?.height }}

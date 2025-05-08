@@ -20,7 +20,7 @@ const Text = () => {
   const previewCanvasRef = useRef<HTMLCanvasElement | null>(null);
   
   // Use the hook for image handling
-  const { image, handleUpload, handleDownload: originalHandleDownload } = useHandleFile(canvasRef);
+  const { image, handleUpload, handleDownload: originalHandleDownload, goToEditor } = useHandleFile(canvasRef);
 
   useIframeResize()
   
@@ -143,6 +143,7 @@ const Text = () => {
       toolIcon="assets/text.svg"
       onDownload={image ? handleDownload : undefined}
       onUpload={handleUpload}
+      goToEditor={goToEditor}
     >
       {/* Hidden canvas used by useHandleFile hook for export */}
       <canvas ref={canvasRef} className="hidden" />

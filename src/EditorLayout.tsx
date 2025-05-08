@@ -1,5 +1,4 @@
-import React, { ReactNode } from 'react';
-import { Link } from 'react-router-dom';
+import { FC, memo, ReactNode, ChangeEvent } from 'react';
 import DownloadButton from './reusable/DownloadButton';
 import UploadButton from './reusable/UploadButton';
 
@@ -7,13 +6,15 @@ interface EditorLayoutProps {
   children: ReactNode;
   toolIcon?: string; // Path to the SVG icon
   onDownload?: () => void;
-  onUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  goToEditor?: () => void;
+  onUpload: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const EditorLayout: React.FC<EditorLayoutProps> = ({
+const EditorLayout: FC<EditorLayoutProps> = ({
   children,
   onDownload,
-  onUpload
+  onUpload,
+  goToEditor
 }) => {
   return (
     <div className="flex flex-col items-center justify-center gap-3 min-h-screen bg-gray-50">
@@ -27,14 +28,18 @@ const EditorLayout: React.FC<EditorLayoutProps> = ({
             <UploadButton onUpload={onUpload} />
             <DownloadButton downloadAction={onDownload} />
           </div>
-
-          <Link to="/" className="flex items-center justify-center py-2 border px-[5%] rounded-lg border-purple-600 bg-purple-600 hover:bg-purple-700">
-            <h6 className="text-base font-sans font-medium text-white">Try In Editor</h6>
-          </Link>
+          <div>
+            <button
+              className="flex items-center justify-center py-2 border px-[5%] rounded-lg border-purple-600 bg-purple-600 hover:bg-purple-700"
+              onClick={goToEditor}
+            >
+              <span className="text-base font-medium font-sans">Try In Editor</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default EditorLayout;
+export default memo(EditorLayout);
