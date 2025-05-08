@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, ReactNode } from "react";
 
 const THEMES = {
     green: {
@@ -27,7 +27,7 @@ const THEMES = {
     }
 };
 
-const BasicButton = ({ label, color, handleClick }: { label: string, color: keyof typeof THEMES, handleClick: () => void }) => {
+const BasicButton = ({ children, color, handleClick }: { children: ReactNode, color: keyof typeof THEMES, handleClick: () => void }) => {
     const styles = THEMES[color] || THEMES.blue;
 
     return (
@@ -35,7 +35,7 @@ const BasicButton = ({ label, color, handleClick }: { label: string, color: keyo
             onClick={handleClick}
             className={`px-4 py-2 text-base font-semibold ${styles.text} ${styles.bg} ${styles.hover} rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 ${styles.ring}`}
         >
-            {label}
+            {children}
         </button>
     );
 };

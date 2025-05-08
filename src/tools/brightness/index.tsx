@@ -122,7 +122,7 @@ const Brightness = () => {
               ))}
 
               {/* Reset Button */}
-              <BasicButton label={"Reset"} color={'gray'} handleClick={handleReset} />
+              <BasicButton children={"Reset"} color={'gray'} handleClick={handleReset} />
             </div>
           </div>
 

@@ -178,8 +178,8 @@ const Glitch = () => {
 
               {/* Action buttons */}
               <div className="flex gap-2">
-                <BasicButton label={"Random"} color={'purple'} handleClick={handleRandomGlitch} />
-                <BasicButton label={"Reset"} color={'gray'} handleClick={handleReset} />
+                <BasicButton children={"Random"} color={'purple'} handleClick={handleRandomGlitch} />
+                <BasicButton children={"Reset"} color={'gray'} handleClick={handleReset} />
               </div>
             </div>
           </div>

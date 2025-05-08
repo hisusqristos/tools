@@ -131,7 +131,7 @@ const ColorBalance = () => {
               </div>
             ))}
 
-            <BasicButton label={"Reset"} color={'gray'} handleClick={handleReset} />
+            <BasicButton children={"Reset"} color={'gray'} handleClick={handleReset} />
           </div>
 
           {/* Preview canvas - visible to user */}

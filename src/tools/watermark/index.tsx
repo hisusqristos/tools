@@ -234,7 +234,7 @@ const Watermark = () => {
 
             {/* Reset button */}
             <div className="text-right mb-4">
-              <BasicButton label={"Reset"} color={'gray'} handleClick={handleReset} />
+              <BasicButton children={"Reset"} color={'gray'} handleClick={handleReset} />
             </div>
 
             {/* Watermark type selector */}

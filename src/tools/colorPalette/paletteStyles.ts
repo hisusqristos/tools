@@ -1,36 +1,6 @@
 import { createUseStyles } from 'react-jss'
 
-const PaletteStyles = createUseStyles({
-    container: {
-        display: 'flex',
-        overflow: 'hidden',
-        borderBottomLeftRadius: '0.5rem',
-        borderBottomRightRadius: '0.5rem',
-    },
-    '@keyframes ripple': {
-        to: {
-            transform: 'scale(4)',
-            opacity: 0,
-        },
-    },
-    ripple: {
-        position: 'absolute',
-        borderRadius: '50%',
-        background: 'rgba(255, 255, 255, 0.5)',
-        transform: 'scale(0)',
-        animation: `$rippleEffect 1000ms ease-out`,
-        pointerEvents: 'none',
-        zIndex: 1,
-    },
-    '@keyframes rippleEffect': {
-        to: {
-            transform: 'scale(4)',
-            opacity: 0,
-        },
-    },
-})
-
-const PaletteButtonStyles = createUseStyles({
+const useStyles = createUseStyles({
     button: {
         width: 120,
         height: 100,
@@ -40,7 +10,10 @@ const PaletteButtonStyles = createUseStyles({
         transition: 'transform 0.2s ease',
         '&:hover $label': {
             opacity: 1,
-            transitionDelay: '100ms',
+        },
+        '&:active $label': {
+            opacity: 1,
+            transition: 'transform 0.2s ease',
         },
     },
     first: {
@@ -62,9 +35,25 @@ const PaletteButtonStyles = createUseStyles({
         background: 'rgba(0, 0, 0, 0.15)',
         borderRadius: '0.375rem',
         opacity: 0,
-        transition: 'opacity 600ms ease',
-    }
+        transition: 'opacity 0.6s ease',
+        pointerEvents: 'none',
+    },
+    ripple: {
+        position: 'absolute',
+        borderRadius: '50%',
+        background: 'rgba(255, 255, 255, 0.5)',
+        transform: 'scale(0)',
+        animation: `$rippleEffect 1000ms ease-out`,
+        pointerEvents: 'none',
+        zIndex: 1,
+    },
+    '@keyframes rippleEffect': {
+        to: {
+            transform: 'scale(4)',
+            opacity: 0,
+        },
+    },
 })
 
 
-export { PaletteStyles, PaletteButtonStyles }
+export { useStyles }
