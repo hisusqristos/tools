@@ -10,11 +10,7 @@ const useStyles = createUseStyles({
         transition: 'transform 0.2s ease',
         '&:hover $label': {
             opacity: 1,
-        },
-        '&:active $label': {
-            opacity: 1,
-            transition: 'transform 0.2s ease',
-        },
+        }
     },
     first: {
         borderBottomLeftRadius: '0.5rem',
@@ -36,7 +32,6 @@ const useStyles = createUseStyles({
         borderRadius: '0.375rem',
         opacity: 0,
         transition: 'opacity 0.6s ease',
-        pointerEvents: 'none',
     },
     ripple: {
         position: 'absolute',

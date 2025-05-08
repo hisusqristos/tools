@@ -16,14 +16,9 @@ const PaletteButton = ({ color, isFirst, isLast }: PaletteButtonProps) => {
         createRipple(e.currentTarget, classes.ripple)
         navigator.clipboard.writeText(color)
 
-        const label = e.currentTarget.querySelector(`.${classes.label}`)
-        if (label) {
-            label.textContent = "COPIED"
-            setTimeout(() => {
-                label.textContent = "COPY"
-            }, 600)
-        }
-    }, []);
+        const label = e.currentTarget.querySelector(`.${classes.label}`)!
+        label.textContent = "COPIED"
+    }, [classes]);
 
     return (
         <button
@@ -31,14 +26,16 @@ const PaletteButton = ({ color, isFirst, isLast }: PaletteButtonProps) => {
                 [classes.first]: isFirst,
                 [classes.last]: isLast,
             })}
-            title={color}
             onClick={(e) => handleClick(e, color)}
+            onMouseEnter={(e) => {
+                const label = e.currentTarget.querySelector(`.${classes.label}`)!
+                label.textContent = "COPY"
+            }}
         >
-            <span className={classes.label}>
-                COPY
-            </span>
+            <span className={classes.label} />
         </button>
     )
 }
+
 
 export default memo(PaletteButton);
