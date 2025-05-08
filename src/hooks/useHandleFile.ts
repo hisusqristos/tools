@@ -52,17 +52,44 @@ const useHandleFile = (originalCanvasRef: React.RefObject<HTMLCanvasElement | nu
         document.body.removeChild(link);
     };
 
-    const goToEditor = () => {
+    const goToEditor = async (  { signal }: { signal?: AbortSignal } = {},) => {
       if (!originalCanvasRef.current) return;
-      originalCanvasRef.current.toBlob(blob => {
+      originalCanvasRef.current.toBlob(async (blob) => {
         if (!blob) {
           console.error('Canvas toBlob failed');
           return;
         }
       
         const blobUrl = URL.createObjectURL(blob);
-        const encoded = encodeURIComponent(blobUrl);
-        const editorUrl = `https://editor.vertex.art/data=${encoded}`;
+
+        const originalName = blob instanceof File ? blob.name : "image.png";
+        const fileExtension = originalName.split(".").pop() || "png";
+        const fileName = `${crypto.randomUUID()}.${fileExtension}`;
+        
+        const file = new File([blob], fileName, { type: blob.type });
+        console.log(file, file.type);
+        const { uploadUrl, imageUrl } = await fetch("https://editor.vertex.art/api/cdn", {
+            method: "POST",
+            credentials: "include",
+            body: JSON.stringify(file),
+            signal,
+          }).then((res) => res.json());
+
+          console.log("uploadUrl",uploadUrl, imageUrl);
+
+         await fetch(uploadUrl, {
+            method: "PUT",
+            body: file,
+            headers: {
+              "Content-Type": file.type,
+            },
+            signal,
+          });
+
+      
+          const encoded = encodeURIComponent(imageUrl);
+        
+        const editorUrl = `https://editor.vertex.art/demo?type=IMAGE&data=${encoded}`;
       
         window.open(editorUrl, '_blank');
       });
