@@ -59,14 +59,9 @@ const useHandleFile = (originalCanvasRef: React.RefObject<HTMLCanvasElement | nu
           console.error('Canvas toBlob failed');
           return;
         }
-      
-        const blobUrl = URL.createObjectURL(blob);
 
-        const originalName = blob instanceof File ? blob.name : "image.png";
-        const fileExtension = originalName.split(".").pop() || "png";
-        const fileName = `${crypto.randomUUID()}.${fileExtension}`;
         
-        const file = new File([blob], fileName, { type: blob.type });
+        const file = new File([blob], crypto.randomUUID(), { type: blob.type });
         console.log(file, file.type);
         const { uploadUrl, imageUrl } = await fetch("https://editor.vertex.art/api/cdn", {
             method: "POST",
