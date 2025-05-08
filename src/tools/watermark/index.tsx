@@ -23,7 +23,7 @@ const Watermark = () => {
   const previewCanvasRef = useRef<HTMLCanvasElement | null>(null);
   
   // Use the hook for image handling
-  const { image, handleUpload, handleDownload: originalHandleDownload } = useHandleFile(canvasRef, previewCanvasRef);
+  const { image, handleUpload, handleDownload: originalHandleDownload, goToEditor } = useHandleFile(canvasRef, previewCanvasRef);
   
   useIframeResize()
   
@@ -210,6 +210,7 @@ const Watermark = () => {
       toolIcon="assets/watermark.svg"
       onDownload={image ? handleDownload : undefined}
       onUpload={handleUpload}
+      goToEditor={goToEditor}
     >
       <canvas ref={canvasRef} className="hidden" />
 

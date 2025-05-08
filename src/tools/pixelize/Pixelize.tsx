@@ -10,7 +10,7 @@ const Pixelize = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
-  const { image, handleUpload, handleDownload } = useHandleFile(canvasRef, previewCanvasRef, 600);
+  const { image, handleUpload, handleDownload, goToEditor } = useHandleFile(canvasRef, previewCanvasRef, 600);
 
   useIframeResize()
 
@@ -23,6 +23,7 @@ const Pixelize = () => {
       toolIcon="assets/pixelize.svg"
       onDownload={image ? handleDownload : undefined}
       onUpload={handleUpload}
+      goToEditor={goToEditor}
     >
       <canvas ref={canvasRef} className="hidden" />
       <canvas ref={previewCanvasRef} className="hidden" />

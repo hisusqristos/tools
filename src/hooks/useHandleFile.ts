@@ -52,7 +52,25 @@ const useHandleFile = (originalCanvasRef: React.RefObject<HTMLCanvasElement | nu
         document.body.removeChild(link);
     };
 
-    return { image, handleUpload, handleDownload };
+    const goToEditor = () => {
+      if (!originalCanvasRef.current) return;
+      originalCanvasRef.current.toBlob(blob => {
+        if (!blob) {
+          console.error('Canvas toBlob failed');
+          return;
+        }
+      
+        const blobUrl = URL.createObjectURL(blob);
+        const encoded = encodeURIComponent(blobUrl);
+        const editorUrl = `https://editor.vertex.art/data=${encoded}`;
+      
+        window.open(editorUrl, '_blank');
+      });
+      
+  };
+
+
+    return { image, handleUpload, handleDownload, goToEditor };
 };
 
 export default useHandleFile;

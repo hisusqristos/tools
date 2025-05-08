@@ -9,7 +9,7 @@ import useIframeResize from "../../hooks/useIframeResize";
 const Flip = ({ maxCanvasSize }: { maxCanvasSize?: number }) => {
   const originalCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement | null>(null);
-  const { image, handleUpload, handleDownload } = useHandleFile(originalCanvasRef, previewCanvasRef, maxCanvasSize);
+  const { image, handleUpload, handleDownload, goToEditor } = useHandleFile(originalCanvasRef, previewCanvasRef, maxCanvasSize);
 
   useIframeResize()
 
@@ -42,6 +42,7 @@ const Flip = ({ maxCanvasSize }: { maxCanvasSize?: number }) => {
       toolIcon="assets/flip-horizontal.svg"
       onDownload={image ? handleDownload : undefined}
       onUpload={handleUpload}
+      goToEditor={goToEditor}
     >
       {!image ? (
         <DragAndDrop onUploadAction={handleUpload} />

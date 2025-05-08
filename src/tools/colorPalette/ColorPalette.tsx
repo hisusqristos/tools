@@ -8,7 +8,7 @@ import useIframeResize from "../../hooks/useIframeResize";
 
 const ColorPalette = () => {
     const originalCanvasRef = useRef<HTMLCanvasElement | null>(null);
-    const { image, handleUpload, handleDownload } = useHandleFile(originalCanvasRef);
+    const { image, handleUpload, handleDownload, goToEditor } = useHandleFile(originalCanvasRef);
     useIframeResize()
 
     return (
@@ -16,6 +16,7 @@ const ColorPalette = () => {
             toolIcon="assets/flip-horizontal.svg"
             onDownload={image ? handleDownload : undefined}
             onUpload={handleUpload}
+            goToEditor={goToEditor}
         >
             {!image ? (
                 <DragAndDrop onUploadAction={handleUpload} />

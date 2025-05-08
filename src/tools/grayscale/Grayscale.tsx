@@ -9,7 +9,7 @@ import EditorLayout from "../../EditorLayout";
 
 const Grayscale = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const { image, handleUpload, handleDownload } = useHandleFile(canvasRef);
+  const { image, handleUpload, handleDownload, goToEditor } = useHandleFile(canvasRef);
 
   useIframeResize()
 
@@ -20,6 +20,7 @@ const Grayscale = () => {
       toolIcon="assets/grayscale.svg"
       onDownload={image ? handleDownload : undefined}
       onUpload={handleUpload}
+      goToEditor={goToEditor}
     >
       <canvas ref={canvasRef} className="hidden" />
       
