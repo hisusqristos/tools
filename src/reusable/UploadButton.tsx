@@ -3,7 +3,7 @@ interface UploadButtonProps {
 }
 
 const UploadButton: React.FC<UploadButtonProps> = ({ onUpload }) => {
-    return (<label className="flex justify-center items-center space-x-2 px-5 py-1 rounded-lg border border-purple-600 text-purple-600 cursor-pointer">
+    return (<label className="flex justify-center items-center space-x-2 px-5 py-1 rounded-lg border bg-gray-50 border-purple-600 text-purple-600 cursor-pointer">
         <img className="size-6 text-white" src="assets/upload.svg" alt="Upload" />
         <span className="text-sm font-medium font-sans">Upload</span>
         <input
