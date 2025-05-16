@@ -1,25 +1,26 @@
 import { useRef, useState, useEffect, useCallback } from "react";
+import { adjustColorBalance } from "./adjustColorBalance";
 import useHandleFile from "../../hooks/useHandleFile";
 import useIframeResize from "../../hooks/useIframeResize";
 import DragAndDrop from "../../reusable/DragAndDrop";
 import EditorLayout from "../../EditorLayout";
 import RangeSlider from "../../reusable/RangeSlider";
-import { adjustColorBalance } from "./adjustColorBalance";
+import BasicButton from "../../reusable/BasicButton";
 
 const ColorBalance = () => {
   // Canvas for download operations (hidden)
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   // Canvas for preview (visible to user)
   const previewCanvasRef = useRef<HTMLCanvasElement | null>(null);
-  
+
   // Use the hook for image handling
   const { image, handleUpload, handleDownload: originalHandleDownload, goToEditor } = useHandleFile(canvasRef);
 
   useIframeResize()
-  
+
   // Store adjustment values in refs to avoid rerenders
   const adjustmentValues = useRef({ red: 0, green: 0, blue: 0 });
-  
+
   // State is only used for controlled inputs, not for rendering logic
   const [redValue, setRedValue] = useState<number>(0);
   const [greenValue, setGreenValue] = useState<number>(0);
@@ -28,9 +29,9 @@ const ColorBalance = () => {
   // Function to update the preview canvas
   const updatePreview = useCallback(() => {
     if (!image || !previewCanvasRef.current) return;
-    
+
     const { red, green, blue } = adjustmentValues.current;
-    
+
     adjustColorBalance(
       image,
       previewCanvasRef.current,
@@ -39,20 +40,20 @@ const ColorBalance = () => {
       blue
     );
   }, [image]);
-  
+
   // Handlers for slider changes that update without causing rerenders
   const handleRedChange = useCallback((value: number) => {
     adjustmentValues.current.red = value;
     setRedValue(value); // Update state for UI only
     requestAnimationFrame(updatePreview); // Schedule canvas update
   }, [updatePreview]);
-  
+
   const handleGreenChange = useCallback((value: number) => {
     adjustmentValues.current.green = value;
     setGreenValue(value); // Update state for UI only
     requestAnimationFrame(updatePreview); // Schedule canvas update
   }, [updatePreview]);
-  
+
   const handleBlueChange = useCallback((value: number) => {
     adjustmentValues.current.blue = value;
     setBlueValue(value); // Update state for UI only
@@ -62,19 +63,19 @@ const ColorBalance = () => {
   // Create a custom download handler that applies adjustments before download
   const handleDownload = useCallback(() => {
     if (!image || !canvasRef.current) return;
-    
+
     const { red, green, blue } = adjustmentValues.current;
 
     // Apply current adjustments to the download canvas
     adjustColorBalance(
-      image, 
-      canvasRef.current, 
+      image,
+      canvasRef.current,
       red,
       green,
-      blue, 
+      blue,
       true
     );
-    
+
     // Use the original download function from the hook
     originalHandleDownload();
   }, [image, originalHandleDownload]);
@@ -93,7 +94,13 @@ const ColorBalance = () => {
       updatePreview();
     }
   }, [image, updatePreview]);
-  
+
+  const sliders = [
+    { id: 'red-slider', color: 'red', value: redValue, onChange: handleRedChange },
+    { id: 'green-slider', color: 'green', value: greenValue, onChange: handleGreenChange },
+    { id: 'blue-slider', color: 'blue', value: blueValue, onChange: handleBlueChange },
+  ];
+
   return (
     <EditorLayout
       toolIcon="assets/color-balance.svg"
@@ -103,64 +110,34 @@ const ColorBalance = () => {
     >
       {/* Hidden canvas used by useHandleFile hook for export */}
       <canvas ref={canvasRef} className="hidden" />
-      
+
       {!image ? (
         <DragAndDrop onUploadAction={handleUpload} />
       ) : (
         <div className="flex flex-col w-full max-w-4xl gap-6">
           {/* Controls section - horizontal layout */}
-            <div className="flex items-center gap-4">
-              {/* Red Slider - 1/3 width */}
-              <div className="flex-1">
+          <div className="flex items-center gap-4">
+            {/* Range silders */}
+            {sliders.map(({ id, color, value, onChange }) => (
+              <div key={id} className="flex-1">
                 <RangeSlider
-                  id="red-slider"
+                  id={id}
                   min={-100}
                   max={100}
-                  value={redValue}
-                  onChange={handleRedChange}
-                  color="red"
+                  value={value}
+                  onChange={onChange}
+                  color={color}
                   showTooltip={true}
                 />
               </div>
-              
-              {/* Green Slider - 1/3 width */}
-              <div className="flex-1">
-                <RangeSlider
-                  id="green-slider"
-                  min={-100}
-                  max={100}
-                  value={greenValue}
-                  onChange={handleGreenChange}
-                  color="green"
-                  showTooltip={true}
-                />
-              </div>
-              
-              {/* Blue Slider - 1/3 width */}
-              <div className="flex-1">
-                <RangeSlider
-                  id="blue-slider"
-                  min={-100}
-                  max={100}
-                  value={blueValue}
-                  onChange={handleBlueChange}
-                  color="blue"
-                  showTooltip={true}
-                />
-              </div>
-              
-              {/* Reset Button */}
-              <button
-                onClick={handleReset}
-                className="px-4 py-2 text-sm font-medium text-white bg-gray-600 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-              >
-                Reset
-              </button>
+            ))}
+
+            <BasicButton children={"Reset"} color={'gray'} handleClick={handleReset} />
           </div>
 
           {/* Preview canvas - visible to user */}
           <div className="w-full flex justify-center">
-            <canvas 
+            <canvas
               ref={previewCanvasRef}
               className="max-w-full rounded-lg shadow-md"
               style={{

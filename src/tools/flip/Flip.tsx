@@ -5,11 +5,14 @@ import applyTransform from "./FlipTransformer";
 import FlipControls from "./FlipControls";
 import EditorLayout from "../../EditorLayout";
 import useIframeResize from "../../hooks/useIframeResize";
+import { useRouteParams } from "../../hooks/useRouteParams";
 
-const Flip = ({ maxCanvasSize }: { maxCanvasSize?: number }) => {
+const Flip = () => {
   const originalCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement | null>(null);
-  const { image, handleUpload, handleDownload, goToEditor } = useHandleFile(originalCanvasRef, previewCanvasRef, maxCanvasSize);
+  const routeParams = useRouteParams()
+  const size = routeParams.size ? parseInt(routeParams.size) : 600
+  const { image, handleUpload, handleDownload, goToEditor } = useHandleFile(originalCanvasRef, previewCanvasRef, size);
 
   useIframeResize()
 
@@ -51,7 +54,7 @@ const Flip = ({ maxCanvasSize }: { maxCanvasSize?: number }) => {
       )}
 
       <div
-        style={{ width: maxCanvasSize, height: maxCanvasSize }}
+        style={{ width: size, height: size }}
         className={`flex w-full items-center justify-center bg-beige-200 rounded-2xl ${!image ? "hidden" : "block"}`} >
         <canvas
           ref={previewCanvasRef}

@@ -28,7 +28,7 @@ const useHandleFile = (originalCanvasRef: React.RefObject<HTMLCanvasElement | nu
                 }
 
                 if (previewCanvasRef?.current) {
-                    const maxSize = limit ?? 300;
+                    const maxSize = limit ?? 600;
                     drawScaledImage(previewCanvasRef.current, img, maxSize);
                 }
 

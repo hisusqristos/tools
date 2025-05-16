@@ -1,4 +1,5 @@
 import { FC, memo, ReactNode, ChangeEvent } from 'react';
+import { useRouteParams } from './hooks/useRouteParams';
 import DownloadButton from './reusable/DownloadButton';
 import UploadButton from './reusable/UploadButton';
 
@@ -16,8 +17,11 @@ const EditorLayout: FC<EditorLayoutProps> = ({
   onUpload,
   goToEditor
 }) => {
+  const { color } = useRouteParams();
+  console.log(color);
   return (
-    <div className="flex flex-col items-center justify-center gap-3 min-h-screen bg-gray-50">
+    <div className="flex flex-col items-center justify-center gap-3 min-h-screen"
+      style={{ background: color }}>
       <div id="editor" className="flex flex-col gap-3 w-full max-w-xl mx-auto">
         <main className="flex flex-col items-center gap-5">
           {children}
@@ -30,7 +34,7 @@ const EditorLayout: FC<EditorLayoutProps> = ({
           </div>
           <div>
             <button
-              className="flex items-center justify-center py-2 border px-[5%] rounded-lg border-purple-600 bg-purple-600 hover:bg-purple-700"
+              className="flex items-center justify-center py-2 border px-5 rounded-lg border-purple-600 bg-purple-600 hover:bg-purple-700"
               onClick={goToEditor}
             >
               <span className="text-base font-medium font-sans">Try In Editor</span>

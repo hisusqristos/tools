@@ -4,6 +4,7 @@ import DragAndDrop from "../../reusable/DragAndDrop";
 import EditorLayout from "../../EditorLayout";
 import RangeSlider from "../../reusable/RangeSlider";
 import useIframeResize from "../../hooks/useIframeResize";
+import BasicButton from "../../reusable/BasicButton";
 
 import {
   adjustWatermark,
@@ -21,21 +22,21 @@ const Watermark = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   // Canvas for preview (visible to user)
   const previewCanvasRef = useRef<HTMLCanvasElement | null>(null);
-  
+
   // Use the hook for image handling
   const { image, handleUpload, handleDownload: originalHandleDownload, goToEditor } = useHandleFile(canvasRef, previewCanvasRef);
   
   useIframeResize()
-  
+
   // Watermark image if uploading one
   const [watermarkImage, setWatermarkImage] = useState<HTMLImageElement | null>(null);
-  
+
   // Watermark options state
   const [watermarkOptions, setWatermarkOptions] = useState<WatermarkOptions>(defaultWatermarkOptions);
-  
+
   // Store the actual values in a ref to avoid rerenders
   const watermarkValuesRef = useRef<WatermarkOptions>({ ...defaultWatermarkOptions });
-  
+
   useIframeResize()
   // Positions for the dropdown
   const positions: { value: WatermarkPosition; label: string }[] = [
@@ -234,12 +235,7 @@ const Watermark = () => {
 
             {/* Reset button */}
             <div className="text-right mb-4">
-              <button
-                onClick={handleReset}
-                className="px-3 py-1 bg-gray-200 text-gray-700 text-sm rounded hover:bg-gray-300 transition"
-              >
-                Reset
-              </button>
+              <BasicButton children={"Reset"} color={'gray'} handleClick={handleReset} />
             </div>
 
             {/* Watermark type selector */}
