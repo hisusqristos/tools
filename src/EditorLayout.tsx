@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
+import { useRouteParams } from './hooks/useRouteParams';
 import DownloadButton from './reusable/DownloadButton';
 import UploadButton from './reusable/UploadButton';
 
@@ -15,8 +16,11 @@ const EditorLayout: React.FC<EditorLayoutProps> = ({
   onDownload,
   onUpload
 }) => {
+  const { color } = useRouteParams();
+  console.log(color);
   return (
-    <div className="flex flex-col items-center justify-center gap-3 min-h-screen">
+    <div className="flex flex-col items-center justify-center gap-3 min-h-screen"
+      style={{ background: color }}>
       <div id="editor" className="flex flex-col gap-3 w-full max-w-xl mx-auto">
         <main className="flex flex-col items-center gap-5">
           {children}

@@ -10,15 +10,16 @@ import Text from "./tools/text";
 import Watermark from "./tools/watermark";
 import ColorPalette from "./tools/colorPalette/ColorPalette";
 import Pixelize from "./tools/pixelize/Pixelize";
-
 import { HashRouter as Router, Routes, Route, useParams, useSearchParams } from "react-router-dom";
+import { ParamsContext, useRouteParams } from "./hooks/useRouteParams";
 
-const ToolSelector = ({ tool, size }: { tool?: string, size?: number }) => {
+const ToolSelector = () => {
+  const { tool } = useRouteParams();
   switch (tool) {
     case "crop":
       return <Crop />;
     case "flip":
-      return <Flip maxCanvasSize={size} />;
+      return <Flip />;
     case "grayscale":
       return <Grayscale />;
     case "colorBalance":
@@ -58,8 +59,21 @@ const ToolSelector = ({ tool, size }: { tool?: string, size?: number }) => {
 const ToolRouter = () => {
   const { tool } = useParams();
   const [searchParams] = useSearchParams();
+
   const size = searchParams.get("size");
-  return <ToolSelector tool={tool} size={size ? parseInt(size) : undefined} />;
+  const color = searchParams.get("color");
+
+  const routeParams = {
+    tool,
+    size: size ? parseInt(size) : undefined,
+    color: color || undefined,
+  };
+
+  return (
+    <ParamsContext.Provider value={routeParams}>
+      <ToolSelector />
+    </ParamsContext.Provider>
+  );
 };
 
 function App() {
