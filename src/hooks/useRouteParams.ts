@@ -2,7 +2,7 @@ import { useContext, createContext } from "react";
 
 type RouteParams = {
   tool?: string;
-  size?: number;
+  size?: string;
   color?: string;
 };
 

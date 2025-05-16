@@ -10,7 +10,8 @@ import { useRouteParams } from "../../hooks/useRouteParams";
 const Flip = () => {
   const originalCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement | null>(null);
-  const { size } = useRouteParams()
+  const routeParams = useRouteParams()
+  const size = routeParams.size ? parseInt(routeParams.size) : 600
   const { image, handleUpload, handleDownload } = useHandleFile(originalCanvasRef, previewCanvasRef, size);
 
   useIframeResize()

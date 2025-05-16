@@ -60,13 +60,10 @@ const ToolRouter = () => {
   const { tool } = useParams();
   const [searchParams] = useSearchParams();
 
-  const size = searchParams.get("size");
-  const color = searchParams.get("color");
-
+  const params = Object.fromEntries(searchParams.entries());
   const routeParams = {
     tool,
-    size: size ? parseInt(size) : undefined,
-    color: color || undefined,
+    ...params
   };
 
   return (
