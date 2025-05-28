@@ -34,6 +34,7 @@ const EditorLayout: FC<EditorLayoutProps> = ({
           </div>
           <div>
             <button
+              style={ {display: 'none'}} 
               className="flex items-center justify-center py-2 border px-5 rounded-lg border-purple-600 bg-purple-600 hover:bg-purple-700"
               onClick={goToEditor}
             >
